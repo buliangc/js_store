@@ -1,0 +1,196 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>节流操作</title>
+</head>
+
+<body>
+    <input type="text">
+    <input type="button" value="提交" id="submit">
+    <script>
+        var btn = document.getElementById("submit");
+        btn.addEventListener("click", mythrottled(submit, 3000, true), false);
+        function submit(e) {
+            console.log(this);
+            console.log(e);
+        }
+        // 节流就是一个高阶函数，利用了闭包的性质，返回一个函数
+        // 时间戳有头
+        function throttled(fn, delay) {
+            let start = 0;
+            return function (...args) {
+                let now = +new Date();
+                if (now - start >= delay) {
+                    fn.apply(this, args);
+                    start = now;
+                }
+            }
+        }
+        // 定时器有尾
+        // function mythrottled(fn, delay) {
+        //     let timer = null;
+        //     return function (...args) {
+        //         console.log(timer);
+        //         if (!timer) {
+        //             // clearTimeout(timer);
+        //             timer = setTimeout(() => {
+        //                 fn.apply(this, args);
+        //                 clearTimeout(timer);
+        //                 timer = null;
+        //             }, delay)
+        //         }
+        //     }
+        // }
+        /**
+ * @desc  函数防抖---“立即执行版本” 和 “非立即执行版本” 的组合版本
+ * @param  func 需要执行的函数
+ * @param  wait 延迟执行时间（毫秒）
+ * @param  immediate---true 表立即执行，false 表非立即执行
+ **/
+        function debounce(func, wait, immediate) {
+            let timer;
+            return function () {
+                let context = this;
+                let args = arguments;
+
+                if (timer) clearTimeout(timer);
+                if (immediate) {
+                    var callNow = !timer;
+                    timer = setTimeout(() => {
+                        timer = null;
+                    }, wait)
+                    if (callNow) func.apply(context, args)
+                } else {
+                    timer = setTimeout(function () {
+                        func.apply(context, args)
+                    }, wait);
+                }
+            }
+        }
+        // 最终版本
+        function throttle(func, wait) {
+            let previous = 0
+            let context, args, time
+
+            return function () {
+                let now = +new Date()
+                context = this;
+                args = arguments
+                if (now - previous >= wait) { //当距上一次执行的间隔大于规定，可以直接执行
+                    func.apply(context, args)
+                    previous = now
+                } else { // 否则继续等待，结尾执行一次 永远保留最后一次
+                    if (time) clearTimeout(time)
+                    time = setTimeout(() => {
+                        func.apply(context, args)
+                        time = null
+                    }, wait)
+                }
+            }
+        }
+
+        function mythrottled(fn, wait, instance) {
+            let start = 0;
+            let timer = null;
+            return function (...args) {
+                if (!instance) {
+                    if (!timer) {
+                        timer = setTimeout(() => {
+                            fn.apply(this, args);
+                            clearInterval(timer)
+                            timer = null;
+                        }, wait);
+                    }
+                } else {
+                    let now = +new Date();
+                    if (now - start >= wait) {
+                        fn.apply(this, args);
+                        start = now;
+                    } else {    // 因为要保留最后一次的点击触发事件
+                        if (timer) clearTimeout(timer);
+                        timer = setTimeout(() => {
+                            fn.apply(this, args);
+
+                        }, wait);
+                    }
+                }
+
+            }
+        }
+    </script>
+</body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/throttle-debounce@5.0.0/umd/index.min.js"></script>
+    <title>防抖</title>
+</head>
+
+<body>
+    节流防抖
+    <hr>
+    <input type="text">
+    <input type="button" id="submit" value="提交">
+    <script>
+        var btn = document.getElementById("submit");
+        // btn.addEventListener("click", throttleDebounce.debounce(2000, submit));
+        // btn.addEventListener("click", throttleDebounce.throttle(2000, submit));
+        btn.addEventListener("click", debounce(submit, 2000));
+        function submit(e) {
+            console.log(e);
+            console.log(this);
+        }
+        // 节流和防抖也相当于一个高阶函数
+        // wait秒之后才会去执行一次 fn
+        function throttled(fn, delay) {
+            let starttime = Date.now()
+            return function (...args) {
+                let curTime = Date.now() // 当前时间
+                if (curTime - starttime >= delay) {
+                    fn.apply(this, args)
+                    starttime = curTime;
+                }
+            }
+        }
+
+        function throttled1(fn, delay) {
+            let timer = null;
+            return function (...args) {
+                if (!timer) {
+                    timer = setTimeout(() => {
+                        fn.apply(this, args);
+                        clearTimeout(timer);
+                        timer = null;
+                    }, delay);
+                }
+            }
+        }
+
+        function debounce(fn, delay) {
+            let timer = null;
+            return function (...args) {
+                if (timer) {
+                    clearTimeout(timer);
+                }
+                timer = setTimeout(() => {
+                    fn.apply(this, args);
+                    timer = null;
+                }, delay);
+
+            }
+        }
+    </script>
+</body>
+
+</html>

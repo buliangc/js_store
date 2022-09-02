@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        ol li {
+            float: left;
+            z-index: 5;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            float: left;
+            border-radius: 50%;
+            position: relative;
+            top: 180px;
+        }
+
+        li.current {
+            width: 10px;
+            height: 10px;
+            background-color: green;
+            float: left;
+            border-radius: 50%;
+            position: relative;
+            top: 180px;
+        }
+
+        .focus {
+            position: relative;
+            width: 100px;
+            height: 500px;
+            overflow: hidden;
+        }
+
+        .focus ul {
+            width: 400%;
+            position: relative;
+            left: 0;
+            top: 20px;
+        }
+
+        .focus ul li {
+            float: left;
+        }
+
+        .arrow-l.arrow-r {
+            display: none;
+            position: absolute;
+            top: 50%;
+            margin-top: -20px;
+            width: 24px;
+        }
+
+        img {
+            width: 100px;
+            height: 100px;
+            display: block;
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="w">
+        <div class="main">
+            <div class="focus f1">
+                <a href="javascript:;" class="arrow-l">
+                    左边
+                </a>
+                <a href="javascript:;" class="arrow-r">
+                    右边
+                </a>
+                <ul>
+                    <li>
+                        <a href=""> <img
+                                src="https://tse1-mm.cn.bing.net/th/id/R-C.b5c4c87a85247482d7137efb190e53b0?rik=9y3GCfdrXhs8nw&riu=http%3a%2f%2fwww.jereh-pe.com%2fzh-cn%2fupload%2fimages%2f2018%2f07%2f03%2fl%2ff287cbe791224fd595687e169ab43cbe.jpg&ehk=JyCfL6WxyDUfMRSeG%2f3rd4At2cULoWaOy%2bNwg9QKL5I%3d&risl=&pid=ImgRaw&r=0"
+                                alt=""> </a>
+                    </li>
+                    <li>
+                        <a href=""> <img
+                                src="https://tse1-mm.cn.bing.net/th/id/R-C.7db6f77d4381048df18113eb7f273b17?rik=WKXP%2b0OJsMzs9A&riu=http%3a%2f%2fwww.xh-yeya.cn%2fuploads%2f2015%2f12%2f301016251266.jpg&ehk=F2L2SR2I399GqKgMHsuE%2bDEoAJDZAblJ6MEls9oLHn0%3d&risl=&pid=ImgRaw&r=0"
+                                alt=""> </a>
+                    </li>
+                    <li>
+                        <a href=""> <img
+                                src="https://resource.cannews.com.cn/Resource_online/attachement/2015/0304/1425451613782.png"
+                                alt=""> </a>
+                    </li>
+
+                </ul>
+                <ol class="circle">
+
+                </ol>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        //获取元素
+        var arrow_l = document.querySelector('.arrow-l');
+        var arrow_r = document.querySelector('.arrow-r');
+
+        var focus = document.querySelector('.focus');
+        var focusWidth = focus.offsetWidth;
+
+        focus.addEventListener('mouseenter', function () {
+            arrow_l.style.display = 'block';
+            arrow_r.style.display = 'block';
+            clearInterval(timer);
+        });
+        focus.addEventListener('mouseleave', function () {
+            arrow_l.style.display = 'none';
+            arrow_r.style.display = 'none';
+            timer = setInterval(function () {
+                arrow_r.click();
+            }, 2000)
+        });
+        var ul = focus.querySelector('ul');
+        var ol = focus.querySelector('ol');
+        //console.log(ul.children.length)
+        //创建小li
+        for (var i = 0; i < ul.children.length; i++) {
+            var li = document.createElement('li');
+            //记录索引号
+            li.setAttribute('index', i);
+            ol.appendChild(li);
+
+            //排他思想
+            li.addEventListener('click', function () {
+                for (var i = 0; i < ol.children.length; i++) {
+                    ol.children[i].className = '';
+                }
+                this.className = 'current';
+                //点击小圆圈移动
+                var index = this.getAttribute('index');
+                //当我们点击了某个小li 就要把这个li的索引号给num
+                num = index;
+                //当我们点击了某个小li 就要把这个li的索引号给circle
+                num = circle;
+                console.log(focusWidth);
+                console.log(index);
+                // a
+                animation(ul, -focusWidth * index);
+            })
+        }
+        ol.children[0].className = 'current';
+        //克隆第一张图片放在最后面
+        var first = ul.children[0].cloneNode(true);
+        ul.appendChild(first);
+        var num = 0;
+        //控制小圆圈
+        var circle = 0;
+        //节流阀
+        var flag = true;
+        arrow_r.addEventListener('click', function () {
+            if (flag) {
+                flag = false;
+                //如果走到最后一张
+                if (num == ul.children.length - 1) {
+                    ul.style.left = 0;
+                    num = 0;
+                }
+                console.log(1);
+                num++;
+                animation(ul, -num * focusWidth, function () {
+                    //打开节留阀
+                    flag = true;
+                });
+                circle++;
+                //先清除其余小圆圈 留下当前的
+                if (circle == ol.children.length) {
+                    circle = 0;
+                }
+                circleChange()
+            }
+
+        });
+        //左侧按钮
+        arrow_l.addEventListener('click', function () {
+            if (flag) {
+                flag = false;
+                //如果走到最后一张
+                if (num == 0) {
+                    num = ul.children.length - 1;
+                    ul.style.left = -num * focusWidth + 'px';
+
+                }
+                console.log(1);
+                num--;
+                animation(ul, -num * focusWidth, function () {
+                    flag = true;
+                });
+                circle--;
+                //先清除其余小圆圈 留下当前的
+                if (circle < 0) {
+                    circle = ol.children.length - 1;
+                }
+                circleChange()
+            }
+
+        });
+        //定时器
+        var timer = setInterval(function () {
+            arrow_r.click();
+        }, 2000)
+
+        function circleChange() {
+            for (var i = 0; i < ol.children.length; i++) {
+                ol.children[i].className = '';
+            }
+            ol.children[circle].className = 'current';
+        }
+        //把第一个li设置为current
+        // ol.children[0].className = 'current';
+        //添加图片滑动
+        function animation(obj, target, callback) {
+
+            console.log(callback);
+            clearInterval(obj.time);
+            obj.time = setInterval(function () {
+
+
+                var step = (target - obj.offsetLeft) / 10;
+                step = step > 0 ? Math.ceil(step) : Math.floor(step);
+                if (obj.offsetLeft == target) {
+                    clearInterval(obj.time);
+
+                    /*  if (callback) {
+                         callback();
+                     } */
+                    callback && callback();
+                } else {
+                    obj.style.left = obj.offsetLeft + step + 'px';
+                }
+            }, 30);
+        }
+    </script>
+</body>
+
+</html>

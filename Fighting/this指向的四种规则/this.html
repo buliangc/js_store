@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        // var o = {
+        //     m: function () {
+        //         console.log(this); //{} 当函数被作为对象的方法（对象的一个属性）运行时,this指向该对象
+        //     },
+        //     n: function () {
+        //         console.log(this);//{}
+
+        //         var that = this;
+        //         //如果想访问这个外部函数的this值，需要将this的值保存在一个变量里，内部函数就可以通过作用域链找到这个变量。
+
+        //         function test() {
+        //             console.log(this);//window
+        //             console.log(that);//{}
+        //         }
+        //         return test(); //函数test独立调用（不论这个函数在哪调用），this默认指向到window
+        //     }
+        // };
+        // o.m();
+        // o.n();
+        // function myNew(func, ...args) {
+        //     if (typeof (func) !== "function") {
+        //         throw new Error("The parameter need a function");
+        //     }
+        //     const instance = Object.create({});
+        //     instance.__proto__ = func.prototype;
+        //     const res = func.apply(instance, args);
+        //     return typeof (res) == 'object' ? res : instance;
+        // }
+
+        // function People(name, age) {
+        //     this.name = name;
+        //     this.age = age;
+        // }
+        // People.prototype.say = function () {
+        //     console.log(this.name);
+        //     console.log(this);
+        // }
+
+        // const p = myNew(People, "name", 18);
+        // console.log(p);
+        // p.say();
+
+        // function foo(params) {
+        //     console.log(this);
+        // }
+        // function bar(params) {
+        //     const p = new foo();
+        // }
+        // bar()
+        // const arr = [1, 2, 3]
+        // arr.forEach(function () {
+        //     console.log(this);
+        // }, o)
+        // function foo() {
+        //        console.log(this);
+        //     var test = () => {
+        //         console.log(this);
+        //     }
+        //     return test;
+        // }
+
+        // var obj1 = {
+        //     a: 1,
+        //     foo: foo
+        // }
+        // foo().call(obj1); 
+        var name = "window";
+        var obj1 = {
+            name: "1",
+            fn1: function () {
+                console.log(this.name);
+            },
+            fn2: () => console.log(this.name),
+            fn3: function () {
+                return function () {
+                    console.log(this.name);
+                }
+            },
+            fn4: function () {
+                return () => console.log(this.name);
+            }
+        };
+        var obj2 = {
+            name: "2"
+        }
+        // obj1.fn1();     // 1  
+        // obj1.fn1.call(obj2) // 2
+
+        // obj1.fn2();     // window
+        // obj1.fn2.call(obj2) // window
+
+        // obj1.fn3()();   // window
+        // obj1.fn3().call(obj2);  // 2
+        // obj1.fn3.call(obj2)();  // window
+        // obj1.fn4()();   // window       1   箭头函数的父作用域是函数
+        // obj1.fn4().call(obj2); // window  1
+        // obj1.fn4.call(obj2)();  // 2
+
+        function Foo() {
+            console.log(this);
+            getName = function () {
+                console.log(1);
+            }
+            return this;
+        }
+        Foo.getName = function () {
+            console.log(2);
+        }
+        Foo.prototype.getName = function () {
+            console.log(3);
+        }
+        var getName = function () {
+            console.log(4);
+        }
+        function getName() {
+            console.log(5);
+        }
+        Foo.getName();
+        getName();
+        Foo().getName();
+        getName();
+
+        new Foo.getName();
+        new Foo().getName();
+        new new Foo().getName();
+
+        // function foo(something) {
+        //     console.log(this);
+        //     this.a = something
+        // }
+        // var obj1 = {}
+        // var bar = foo.bind(obj1);
+        // bar(2);
+        // console.log(obj1.a); //
+
+        // var baz = new bar(3);
+        // console.log(obj1.a); //
+        // console.log(baz.a); //
+    </script>
+</body>
+
+</html>

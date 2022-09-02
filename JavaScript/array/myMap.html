@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手写Map</title>
+</head>
+
+<body>
+    <script>
+        Array.prototype.myMap = function (fn) {
+            if (typeof (fn) !== 'function') throw new Error('Current params is not a Function!');
+            let arr = this;
+            let res = [];
+            for (let i = 0; i < arr.length; i++) {
+                res.push(fn(arr[i], i));
+            }
+            return res;
+        };
+        // let res = [1, 2, 3, 4].myMap((value, index) => {
+        //     return value * 2
+        // });
+        // console.log(res);
+        // Array.prototype.myMap = function (fn, context) {
+        //     //因为返回一个新数组 所以要定义一个新的
+        //     var arr = []
+        //     if (typeof fn !== 'function') {
+        //         //如果第一个参数不是函数则报错
+        //         console.error('参数错误')
+        //     } else {
+        //         var k = 0;
+        //         var len = this.length //注意这里的this指向数组
+        //         for (; k < len; k++) {
+        //             arr.push(fn.call(context, this[k], k, this))
+        //         }
+        //     }
+        //     return arr;
+        // }
+        let res = [1, 2, 3, 4].myMap((value, index) => {
+            console.log(value);
+            return value * 2
+        });
+        console.log(res);
+    </script>
+</body>
+
+</html>

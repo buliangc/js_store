@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8>
+</head>
+
+<body>
+    <ul>
+        <li>.</li>
+        <li>.</li>
+        <li>.</li>
+    </ul>
+
+    <script type="text/javascript">
+        // 补全代码
+        // const ul = document.getElementsByTagName('ul')[0];
+        // console.log(ul);
+        // ul.onclick = function (e) {
+        //     // 内涵文本标签text
+        //     for (let i = 0, index = 0; i < ul.childNodes.length; i++) {
+        //         if (ul.childNodes[i].nodeName.toLowerCase() == "li") index++;
+        //         if (ul.childNodes[i] === e.target) {
+        //             console.log("我的下标是第" + index + "个");
+        //             e.target.style.background = "red";
+        //         }
+        //     }
+        //     // for ()
+        // }
+        const ul = document.getElementsByTagName('ul')[0];
+        ul.onclick = function (e) {
+            // let target = e.target;
+            for (let i = 0, index = 0; i < ul.childNodes.length; i++) {
+                if (ul.childNodes[i].nodeName.toLowerCase() == 'li') index++;
+                if (ul.childNodes[i] == e.target) {
+                    e.target.innerText = '..'
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

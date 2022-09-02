@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 原型链继承
+        // 如果在Child找age属性，首先会在
+        // function Parent1(name, age) {
+        //     this.name = name;
+        //     this.age = age;
+        //     this.play = [1, 2, 3]
+        // }
+        // Parent1.prototype.func = function () {
+        //     return this.name;
+        // }
+        // function Child1(name, age) {
+        //     // Parent1.call(this, name, age)
+        //     this.type = 'child'
+        // }
+
+        // Child1.prototype = new Parent1('buliangc', 18);
+        // Child1.prototype.constructor = Child1;
+
+        // Child1.prototype.func1 = function () {
+        //     return this.name;
+        // }
+        // let child1 = new Child1('哈哈哈', 20);
+        // // let child2 = new Child1('不良菜', 18);
+        // console.log(child1 instanceof Parent1);
+        // console.log(child1 instanceof Child1);
+        // child1.play = 12;
+        // // child1.play.push(4);
+        // console.log(child1.play);
+        // console.log(child2.play);
+        // 构造函数继承
+        function Parent(name, age) {
+            this.name = name;
+            this.age = age;
+            this.funcAge = function () {
+                return this.age
+            }
+        }
+        Parent.prototype.funcName = function () {
+            return this.name;
+        }
+        function Child(name, age) {
+            Parent.call(this, name, age)
+            this.sex = 'male';
+        }
+        let child1 = new Child('123', 23);
+        console.log(child1 instanceof Parent);
+        console.log(child1 instanceof Child);
+        // let child2 = new Child('123', 23);
+        // child1.sex = '111'
+        // console.log(child1);
+        // console.log(child2);
+        // 实现原型链有一种基本模式，其代码大致如下。
+        // 第一个构造函数
+        // function SuperType() {
+        //     this.theShy = 'niubi';   // shy爹牛逼
+        // }
+        // //第二个构造函数
+        // function SubType() {
+        //     this.xiaohu = '2200';  // ps: 一虎之力 奥利给
+        // }
+
+        // SuperType.prototype.getAbility = function () {
+        //     return this.theShy
+        // }
+
+        // SubType.prototype.shuchu = function () {
+        //     return this.xiaohu
+        // }
+        // // SubType的原型继承了 SuperType
+        // //  这样会重写SubType.prototype中constructor中的值  指向SuperType
+        // SubType.prototype = new SuperType();
+        // console.log(SubType.prototype.constructor);
+        // // 让构造器的指向更改回正确的指向
+        // SubType.prototype.constructor = SubType;
+        // console.log(SubType.prototype.constructor);
+        // 构造函数(Person)
+        // 构造函数(Person)
+        // function Person(name, age) {
+        //     this.name = name
+        //     this.age = age
+        // }
+
+        // // 构造函数(Animal)
+        // function Animal(name, age) {
+        //     this.name = name
+        //     this.age = age
+        // }
+        // // 将 Animal 的方法挂到原型对象
+        // Animal.prototype.print = function () {
+        //     console.log('Hi,Animal')
+        // }
+        // // 将 Person 的方法挂到原型对象
+        // Person.prototype.test = function () {
+        //     console.log('Hi,Person')
+        // }
+
+
+        // // 更改指向并重新指向实例对象
+        // Person.prototype = new Animal('羊驼', 2)
+        // console.log(Person.prototype.constructor);
+        // Person.prototype.constructor = Person;
+        // console.log(Person.prototype.constructor);
+
+
+        // // 实例化(Person)
+        // var per = new Person('小王', 20)
+
+        // // 测试
+        // per.print()//Hi,Animal
+
+        // // 但需要注意，此时 test 将无效
+        // per.test()//Error
+
+        // function Forest(number, tall) {
+        //     this.number = number;
+        //     this.tall = tall;
+        //     this.sayType = function () {
+        //         console.log(this.type);
+        //     }
+        // }
+        // Forest.prototype.func = function () {
+        //     return this.tall;
+        // }
+        // function Tree(type) {
+        //     this.type = type;
+        // } Tree.prototype.grow = function () {
+        //     console.log("I'm growing!!!");
+        // }
+        // Tree.prototype = new Forest(100, 200);  // 原型链继承
+
+        // Tree.prototype.constructor = Tree;
+
+
+        // let newTree = new Tree('苹果树');
+        // console.log(newTree.func());
+        // console.log(newTree.grow());
+        // 多级继承
+
+        // function Forest(number, tall) { // 父类A
+        //     this.number = number;
+        //     this.tall = tall;
+        //     this.sayType = function () {
+        //         return this.tall;
+        //     }
+        // }
+        // Forest.prototype.func = function () {
+        //     return this.tall;
+        // }
+        // function Tree(type, number, tall) {   // 父类B
+        //     this.type = type;
+        // }
+        // Tree.prototype = new Forest();
+        // Tree.prototype.constructor = Tree;
+
+        // Tree.prototype.grow = function () {
+        //     return "I'm growing!!!";
+        // }
+
+        // let newTree = new Tree('槐花树', 100, 200);
+        // let newTree1 = new Tree('桂花树', 111, 222);
+        // console.log(newTree.type);
+        // 构造函数继承 借助apply,call,bind
+        // function Forest(number, tall) {
+        //     this.number = number;
+        //     this.tall = tall;
+        //     this.sayType = function () {
+        //         console.log(this.type);
+        //     }
+        // }
+        // Forest.prototype.func = function () {
+        //     return this.tall;
+        // }
+        // // bind 是返回对应函数，便于稍后调用；apply 、call 则是立即调用
+        // function Tree(type) {
+        //     Forest.call(this, 100, 200);   //通过构造函数的call来进行继承
+        //     this.type = type;
+        // }
+
+        // let newTree = new Tree('槐花树');
+        // console.log(newTree.func());
+        // 构造函数实现多继承
+        // function Forest(number, tall) { // 父类A
+        //     this.number = number;
+        //     this.tall = tall;
+        //     this.sayType = function () {
+        //         console.log(this.type);
+        //     }
+        // }
+        // Forest.prototype.func = function () {
+        //     return this.tall;
+        // }
+        // function Tree(type, number, tall) {   // 父类B
+        //     Forest.call(this, number, tall)
+        //     this.type = type;
+        // }
+
+        // Tree.prototype = new Forest();
+        // Tree.prototype.constructor = Tree;
+        // Tree.prototype.grow = function () {
+        //     return "I'm growing!!!";
+        // }
+        // let newTree = new Tree('桂花树', 100, 200);
+
+        // console.log(newTree.grow());
+        // 实例属性和方法，原型属性和方法
+        // 构造函数继承，只能实现继承实例属性和方法，但无法获取到原型上面的属性和方法。
+        // 这时候就可以通过原型链继承的方式，
+        // 原型链方法无法实现多继承
+        // 使用原型式继承
+        // Object.create()用作新对象原型的对象
+        // 为新对象定义额外属性的对象(可选参数)
+        // 普通对象实现继承 Object.create(OriginalObj);属性和方法都能继承
+        // let parent = {
+        //     name: 'buliangc',
+        //     friends: ['小红', '小黄', '小绿'],
+        //     getName: function () {
+        //         return this.name;
+        //     }
+        // };
+        // let parson = Object.create(parent);
+        // let parson1 = Object.create(parent);
+        // parson.name = 'tony';
+        // parson.friends.push('jerry');
+        // console.log(parson.name === parson.getName());
+        // console.log(parson.friends);
+        // console.log(parson1.friends);
+        // 寄生式继承
+        // let parent = {
+        //     name: 'buliangc',
+        //     friends: ['小红', '小黄', '小绿'],
+        //     getName: function () {
+        //         return this.name;
+        //     }
+        // };
+        // function clone(original) {
+        //     let clone = Object.create(original);
+        //     clone.getFriends = function () {
+        //         return this.friends;
+        //     }
+        //     return clone;
+        // }
+        // let parson = clone(parent);
+        // let parson1 = clone(parent);
+        // parson.friends.push('小蓝');
+        // console.log(parson.getFriends());
+        // console.log(parson1.getFriends());
+        // console.log(parson.getName());
+        // 寄生组合式继承
+        // function clone(parent, child) {
+        //     // 这里改用Object.create 就可以减少组合继承中多进行一次构造的过程
+        //     child.prototype = Object.create(parent.prototype);  // 只能继承原型链上的属性和方法
+        //     child.prototype.constructor = child;
+        // }
+        // function Parent() {
+        //     this.name = 'parent';
+        //     this.play = [1, 2, 3];
+        // }
+        // Parent.prototype.getName = function () {
+        //     return this.name;
+        // }
+        // function Child() {
+        //     Parent.call(this);  // 构造函数继承
+        //     this.friends = 'child';
+        // }
+        // clone(Parent, Child);   // 寄生式继承
+        // Child.prototype.getFriends = function () {
+        //     return this.friends;
+        // }
+        // let person = new Child();
+        // console.log(person);
+        // console.log(person.getName());
+        // ES6的extend
+        // class Parent {
+        //     constructor(name) {
+        //         this.name = name
+        //     }
+        //     introduce() {
+        //         console.log("my name is " + this.name)
+        //     }
+        //     hobby(hobby) {
+        //         console.log(this.name + " like " + hobby)
+        //     }
+        // }
+        // class Parent {
+        //     constructor(name) {
+        //         this.niceName = ['Jack', 'Jake', 'J-Dog'];
+        //     }
+        //     *[Symbol.iterator]() {
+        //         yield* this.niceName.entries();
+        //     }
+        // }
+        // let p = new Parent();
+        // console.log(p);
+        // for (let [idx, niceName] of p) {
+        //     console.log(idx, niceName);
+        // }
+        // class Child extends Parent {
+        //     constructor(name, age) {
+        //         super(name) //构造继承，可以继承Parent构造函数上的属性
+        //         this.age = age
+        //     }
+        // }
+        // var p = new Child("yzh")
+        // p.introduce() //my name is yzh
+        // p.hobby("apple")//yzh like apple
+        // console.log(p instanceof Parent) // true
+        // console.log(p instanceof Child) //true
+
+    </script>
+</body>
+
+</html>

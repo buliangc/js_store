@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圣杯布局</title>
+    <style>
+        .header {
+            height: 100px;
+            background-color: blueviolet;
+        }
+
+        .container {
+            height: 100px;
+            background-color: cadetblue;
+        }
+
+        .left,
+        .center,
+        .right {
+            width: 200px;
+            height: 100px;
+            float: left;
+        }
+
+        /* .center {
+            height: 100px;
+            background-color: blueviolet;
+        }
+
+        
+
+        .right {
+            height: 100px;
+            background-color: blueviolet;
+        } */
+
+        .footer {
+            height: 100px;
+            background-color: cornflowerblue;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">头部</header>
+    <div class="container">
+        <div class="center">主区域</div>
+        <div class="left">左区域</div>
+        <div class="right">右区域</div>
+    </div>
+    <footer class="footer">底部</footer>
+    <div class="container">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</body>
+
+</html>

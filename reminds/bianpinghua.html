@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数组扁平化</title>
+</head>
+
+<body>
+    <script>
+        let arr = [1, [2, 2], [3, 3, 3], [4, 4, 4, 4]];
+        let resultArr = [];
+        // function bianpinghua(targetArr) {
+        //     targetArr.map((value) => {
+        //         Array.isArray(value) ? bianpinghua(value) : resultArr.push(value);
+        //     })
+        //     return resultArr;
+        // }
+        // let result = bianpinghua(arr);
+        // console.log(result);
+        // function myFlatten(target) {
+        //     return target.reduce((preValue, nextValue) => {
+
+        //         return preValue.concat(Array.isArray(nextValue) ? myFlatten(nextValue) : nextValue)
+        //     }, []);
+        // };
+        // let result = myFlatten(arr);
+        // console.log(result);
+        function flattennToString(targetArr) {
+            return targetArr.toString().split(',');
+        }
+        console.log(flattennToString(arr));
+    </script>
+</body>
+
+</html>

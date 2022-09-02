@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PromiseAll</title>
+</head>
+
+<body>
+    <script>
+        // 创建三个promise 用于promiseAll
+        function promise1() {
+            return new Promise((resolve, reject) => {
+                resolve('success1');
+            })
+        }
+        function promise2() {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve('success2');
+                }, 3000)
+            })
+        }
+        function promise3() {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve('success3');
+                }, 2000)
+            })
+        }
+        /*
+         * @function promiseAll
+         * @description 传入promise的数组,当promise都可执行时，返回回调数组
+         * 但是如果其中有一个promsie 期约状态是rejected，那直接返回那一个reason
+         */
+        // function promiseAll(arr) {
+        //     let newArr = [];
+
+        //     return new Promise((resolve, reject) => {
+        //         for (let i = 0; i < arr.length; i++) {
+        //             arr[i].then((value) => {
+        //                 // newArr.push(value); 这样不能保证传入进来的value一定在他原始的位置
+
+        //             }, (reason) => {
+
+        //             })
+        //         };
+        //         resolve(newArr);
+        //     })
+        // }
+        // promiseAll([promise1(), promise2(), promise3()]).then((value) => {
+        //     console.log('arr', value);
+        // })
+        // arrP就是一个迭代器 最后resolve, 通过then将值传递给数组
+        // Promise2.all = function (arrP) {
+        //     let list = []
+        //     let len = 0
+        //     let hasErr = false
+        //     return new Promise2((resolve, reject) => {
+        //         for (let i = 0; i < arrP.length; i++) {
+        //             arrP[i].then(data => {
+        //                 list[i] = data
+        //                 len++
+        //                 len === arrP.length && resolve(list)
+        //             }, error => {
+        //                 !hasErr && reject(error)
+        //                 hasErr = true
+        //             })
+        //         }
+        //     })
+        // }
+
+        function pAll(_promises) {
+            return new Promise((resolve, reject) => {
+                const promises = Array.from(_promises);
+                const len = promises.length;
+                const r = [];
+                let count = 0;
+                for (let i = 0; i < len; i++) {
+                    // 因为有可能传递进来的参数并不是一个promise,而是一个数字,所以要先将其变为promise对象
+                    Promise.resolve(promises[i]).then((value) => {
+                        // r.push(value);   不能保证value按照顺序排列下去
+                        r[i] = value;
+                        if (++count == len) {   // 当迭代器中所有数组都resolve之后,便可以将数组resolve出去
+                            resolve(r);
+                        }
+                    }).catch((error) => {   // 只要有一个promise失败，就直接reject
+                        // console.log();
+                        reject(error);
+                    })
+                }
+            })
+        }
+
+        pAll([1, promise2(), Promise.resolve(5)]).then((value) => {
+            console.log(value);
+        }).catch((err) => {
+            console.log(err);
+        })
+        // Promise.all([1, promise2(), Promise.resolve(5)]).then((value) => {
+        //     console.log(value);
+        // }).catch((err) => {
+        //     console.log(err);
+        // })
+    </script>
+</body>
+
+</html>

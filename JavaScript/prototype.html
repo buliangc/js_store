@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 每个函数
+        function DoSomething(age) {
+            this.age = age
+        }
+        DoSomething.prototype.foo = "bar"; // add a property onto the prototype
+        console.log("原型对象", DoSomething.prototype);
+        var doSomeInstancing = new DoSomething(18);
+        var doSomeInstancing1 = new DoSomething(20);
+        doSomeInstancing.prop = "some value"; // add a property onto the object
+        doSomeInstancing1.prop1 = "any value"; // add a property onto the object
+        console.log("实例", doSomeInstancing);
+        console.log("实例对象", doSomeInstancing.__proto__);
+        console.log(doSomeInstancing.age);
+        console.log(doSomeInstancing.constructor);
+        function Instance(age) {
+            this.age = age;
+        }
+        // Instance.prototype.sayAge = function() {
+        //     console.log(this.age);
+        // }
+
+        Instance.prototype.sayAge = function () {
+            console.log(this);// 因为箭头函数中的this指向的是window所以无法获取到当前构造函数中的属性
+        }
+
+        const func = new Instance(18);
+
+        func.sayAge()
+        console.log({}.__proto__);
+        console.log(Object.prototype.toString.call('name'));
+        console.log("数组", [].__proto__);
+        const str = 'name'
+        console.log("字符串", str.__proto__);
+        console.log("字符串", 'name'.__proto__);
+        const boo = true
+        console.log("布尔", boo.__proto__);
+        const num = 12
+        console.log("数字", num.__proto__);
+        const sym1 = Symbol(1);
+        console.log("symbol", sym1.__proto__);
+        // console.log("未定义", undefined.__proto__);
+        function instance(left, right) {
+            let prototype = right.prototype;  //获取类型的原型
+            let proto = left.__proto__;       //获取对象的原型
+            while (true) {    //循环判断对象的原型是否等于类型的原型，直到对象原型为null，因为原型链最终为null
+                console.log("隐式属性", proto, "原型对象", prototype);
+                if (proto === null || proto === undefined) {
+                    return false;
+                }
+                if (proto === prototype) {
+                    return true;
+                }
+                proto = proto.__proto__;
+                console.log("隐式", proto);
+            }
+        }
+        console.log(instance('123', Object)); //true
+        // console.log("空", null.__proto__);
+        // console.log(String.prototype.constructor == String);
+        // console.log(Number.prototype.constructor == Number);
+        // console.log(String.prototype == str.__proto__);
+        const test = {
+            a: '123'
+        };
+        // const test = new Date();
+        console.log(Object.getOwnPropertyDescriptor(test, 'a'));
+    </script>
+</body>
+
+</html>

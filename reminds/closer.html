@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>闭包每隔一秒打印1,2,3,4,</title>
+</head>
+
+<body>
+    <script>
+        function setPrint() {
+            for (var i = 1; i < 5; i++) {
+                (function (value) {
+                    setTimeout(() => {
+                        console.log(value);
+                    }, 1000 * value);
+                })(i);
+            }
+        }
+        setPrint();
+    </script>
+</body>
+
+</html>

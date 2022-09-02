@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArrayAPI</title>
+</head>
+
+<body>
+    <script>
+        // nums1 = [1, 2, 3, 0, 0, 0];
+        // nums2 = [2, 5, 6];
+        // nums1.push(...nums2);
+        // nums1.sort();
+        // nums1.splice(0, 3)
+        // console.log(nums1);
+        // var a = 10;
+        // function name(params) {
+        //     console.log(a);
+        //     let a = 20;
+        // };
+        // name();
+        // reduce previousValue: 初始值/计算结束后的返回值 value: 当前值 initialValue:作为第一次调用回调函数时传递给initialValue的值
+        // var arr = [1, 2, 3, 4];
+        // var s = arr.reduce(function (previousValue, value, index, array) {
+        //     console.log(previousValue, value, index, array);
+        //     return previousValue * value;
+        // }, 1);
+        // console.log(arr);
+        // // 实现数组求和
+        // var sum = 0;
+        // arr.forEach(function (value) {
+        //     sum = sum + value;
+        // })
+        // console.log(sum);
+        // let su = arr.reduce(function (previousValue, value) {
+        //     return previousValue + value;
+        // }, 0);
+        // console.log(su);
+        // var arrObj = [{ name: 'one' }, { name: 'two' }, { name: 'three' }];
+        // console.log(arrObj.reduce(function (pre, current, index, array) {
+        //     if (index === 0) {
+        //         // console.log(current.name);
+        //         return current.name;
+        //     } else if (index === array.length - 1) {
+        //         return pre + '&' + current.name;
+        //     } else {
+        //         return pre + ',' + current.name;
+        //     }
+        // }, ''));
+        let arguments = {
+            0: 'java',
+            1: 'script',
+            2: 'html',
+            length: 3
+        }
+        let arr = Array.prototype.slice.call(arguments);
+        console.log(arr);
+    </script>
+</body>
+
+</html>

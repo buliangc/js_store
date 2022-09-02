@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/throttle-debounce@5.0.0/umd/index.min.js"></script>
+    <title>防抖</title>
+</head>
+
+<body>
+    节流防抖
+    <hr>
+    <input type="text">
+    <input type="button" id="submit" value="提交">
+    <script>
+        var btn = document.getElementById("submit");
+        // btn.addEventListener("click", throttleDebounce.debounce(2000, submit, { atBegin: true }));
+        // btn.addEventListener("click", throttleDebounce.throttle(2000, submit,
+        //     { noLeading: true, noTrailing: false }
+        // ));
+        btn.addEventListener("click", throttle1(handle, 2000, true));
+        function submit(e) {
+            console.log(e);
+            console.log(this);
+        }
+
+        // function debounce(fn, wait, immediate) {
+        //     let timer = null
+        //     return function () {
+        //         let context = this
+        //         let args = arguments
+        //         if (timer) clearTimeout(timer)
+        //         // if (immediate) {
+        //         // let call = !timer       // timer为null  call为true
+        //         // timer = setTimeout(() => {
+        //         //     timer = null
+        //         // }, wait)
+        //         // if (call) fn.apply(context, args)
+        //         // } else {
+        //         timer = setTimeout(() => {
+        //             fn.apply(context, args)
+        //             timer = null
+        //         }, wait)
+        //         // }
+        //     }
+        // }
+        // 节流 一段时间执行一次
+        // 防抖 最后一次点击生效
+        function debounce(func, wait) {
+            let timer = null;
+            return function () {
+                if (timer) {
+                    clearTimeout(timer);
+                    console.log("1  " + timer);
+                }
+                timer = setTimeout(() => {
+                    func();
+                }, wait);
+                console.log("2  " + timer);
+            }
+        }
+        // 时间戳  
+        function throttle(func, wait) {
+            let start = 0;
+            return function () {
+                let now = new Date();
+                if (now - start > wait) {
+                    func();
+                    start = now;
+                }
+            }
+        }
+        // 定时器
+        function throttle1(func, wait) {
+            let timer = null;
+            return function () {
+                if (!timer) {
+                    timer = setTimeout(() => {
+                        func();
+                        timer = null;
+                    }, wait);
+                }
+            }
+        }
+        function handle() {
+            console.log("点击");
+        }
+    </script>
+</body>
+
+</html>

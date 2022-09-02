@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>拖拽盒子</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            border: none
+        }
+
+        body,
+        html {
+            height: 100%;
+            width: 100%;
+        }
+
+        .drag-box {
+            user-select: none;
+            z-index: 2147483647;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 200px;
+            background-color: #ccc;
+            -webkit-box-shadow: 1px 1px 3px #292929;
+            -moz-box-shadow: 1px 1px 3px #292929;
+            box-shadow: 1px 1px 3px #292929;
+        }
+
+        #dragBoxBar {
+            text-align: center;
+            line-height: 40px;
+            background: #ccc;
+            width: 100%;
+            height: 40px;
+            cursor: move;
+            user-select: none;
+        }
+
+        .no-select {
+            user-select: none;
+        }
+
+        .pointer-events {
+            pointer-events: none;
+        }
+
+
+        .no-border {
+            border: none;
+        }
+
+
+        #contentBox {
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            background: #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div id="dragBox" class="drag-box">
+            <div id="dragBoxBar" class="no-select">Drag Me , Please!!!</div>
+            <div id="contentBox">Catch Me!</div>
+        </div>
+    </div>
+
+    <script>
+        var isMouseDown,
+            initX,
+            initY,
+            height = contentBox.offsetHeight,
+            width = contentBox.offsetWidth;
+        console.log(width, height + dragBoxBar.offsetHeight);
+        dragBoxBar.addEventListener('mousedown', function (e) {
+            isMouseDown = true;
+            document.body.classList.add('no-select');
+            initX = e.offsetX;
+            initY = e.offsetY;
+            dragBox.style.opacity = 0.5;
+            contentBox.innerHTML = "Catched You!"
+        })
+
+        dragBoxBar.addEventListener('mouseup', function (e) {
+            mouseupHandler();
+        })
+
+        document.addEventListener('mousemove', function (e) {
+            if (isMouseDown) {
+                var cx = e.clientX - initX,
+                    cy = e.clientY - initY;
+                if (cx < 0) {
+                    cx = 0;
+                }
+                if (cy < 0) {
+                    cy = 0;
+                }
+                if (window.innerWidth - e.clientX + initX < width) {
+                    cx = window.innerWidth - width;
+                }
+                if (window.innerHeight - e.clientY + initY < height + dragBoxBar.offsetHeight) {
+                    cy = window.innerHeight - dragBoxBar.offsetHeight - height;
+                }
+                // if (window.innerHeight - e.clientY + initY < height) {
+                //     cy = window.innerHeight - dragBoxBar.offsetHeight - height;
+                // }
+                dragBox.style.left = cx + 'px';
+                dragBox.style.top = cy + 'px';
+            }
+        })
+
+        document.addEventListener('mouseup', function (e) {
+            if (e.clientY > window.innerWidth || e.clientY < 0 || e.clientX < 0 || e.clientX > window.innerHeight) {
+                mouseupHandler();
+            }
+        });
+
+        function mouseupHandler() {
+            isMouseDown = false;
+            document.body.classList.remove('no-select');
+            dragBox.style.opacity = 1;
+            contentBox.innerHTML = "Catch Me!"
+        }
+    </script>
+</body>
+
+</html>

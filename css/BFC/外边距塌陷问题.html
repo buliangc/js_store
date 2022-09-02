@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+            overflow: hidden;
+        }
+
+        .box1 {
+            width: 40px;
+            height: 40px;
+            margin-top: 50px;
+            background-color: lightgreen;
+        }
+
+        /* .bfc::after {
+            display: block;
+            clear: both;
+        } */
+    </style>
+
+    <div class="box bfc">
+        <div class="box1"></div>
+    </div>
+
+</body>
+
+</html>

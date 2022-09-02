@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数组去重</title>
+</head>
+
+<body>
+    <script>
+        let arr = [1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5];
+        function quChong(targetArr) {
+            let arrrr = JSON.parse(JSON.stringify(targetArr));
+            for (let i = 0; i < targetArr.length; i++) {
+                for (let j = i + 1; j < targetArr.length; j++) {
+                    if (targetArr[i] === targetArr[j]) {
+                        // targetArr.slice(j + 1, j + 2);
+                        // console.log(targetArr[j + 1]);
+                        arrrr.splice(j, 1);
+                        j--;
+                    }
+                }
+            }
+            return arrrr;
+        }
+        console.log(quChong(arr));
+    </script>
+</body>
+
+</html>

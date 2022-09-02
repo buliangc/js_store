@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>正则表达式表单验证</title>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_2437453_sumk6uyk5ph.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        form {
+            width: 500px;
+            padding: 30px;
+            border: 3px solid rgb(11, 142, 194);
+            margin: 30px auto;
+            border-radius: 15px;
+        }
+
+        input {
+            width: 200px;
+            height: 20px;
+            outline: none;
+        }
+
+        div {
+            position: relative;
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            padding: 10px 0 30px 0;
+        }
+
+        #usernameSpan,
+        #passwordSpan,
+        #dblpasswordSpan,
+        #emailSpan {
+            display: inline-block;
+            text-align: right;
+            width: 100px;
+        }
+
+        #info {
+            position: absolute;
+            left: 40px;
+            bottom: 5px;
+            font-size: 12px;
+            color: red;
+            display: none;
+        }
+
+        #confirmInfo {
+            position: absolute;
+            left: 100px;
+            bottom: 5px;
+            font-size: 12px;
+            color: red;
+            display: none;
+        }
+
+        #emailInfo {
+            position: absolute;
+            left: 80px;
+            bottom: 5px;
+            font-size: 12px;
+            color: red;
+            display: none;
+        }
+
+        .iconfont {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: -25px;
+            color: red;
+            display: none;
+            /* background-color: blue; */
+        }
+
+        #showP {
+            display: none;
+            position: absolute;
+            top: -24px;
+            left: 92px;
+            padding: 0 8px 0 8px;
+            font-size: 20px;
+            border: 2px solid blue;
+            border-radius: 4px 4px 4px 4px;
+            /* background-color: blue; */
+        }
+
+        #show {
+            display: inline-block;
+        }
+
+        #angle {
+            width: 0;
+            height: 0;
+            position: absolute;
+            top: 10px;
+            left: 100px;
+            display: none;
+            border-style: solid;
+            border-width: 5px 5px 5px 5px;
+            border-color: blue transparent transparent transparent;
+        }
+
+        /* #iconError {
+            display: inline-block;
+            top: 10px;
+            vertical-align: middle;
+            width: 20px;
+            height: 20px;
+            margin-left: -30px;
+        } */
+    </style>
+</head>
+
+<body>
+    <form action="http://lcoalhost" method="get" id="userForm">
+        <div id="usernameLabel">
+
+            <p id="showP"></p>
+            <div id="angle"></div>
+            <span id="usernameSpan">
+                用户名：
+            </span>
+            <input type="text" id="username" name="username" maxlength="12" onfocus="nameFHandle()"
+                onblur="nameHandle()" />
+            <span id="info">只能由字母数字下划线组成，6 ~ 12位，不能以_开头</span>
+            <i class="iconfont" id="iconfontName">&#xe65a;</i>
+        </div>
+        <div id="usernamePwd">
+            <span id="passwordSpan">
+                密码：
+            </span>
+            <input type="password" id="password" name="password" />
+            <i class="iconfont" id="iconfontPwd">&#xe65a;</i>
+        </div>
+        <div id="usernameCPwd">
+            <span id="dblpasswordSpan">
+                确认密码：
+            </span>
+            <input type="password" id="dblpassword" name="dblpassword" />
+            <span id="confirmInfo">错啦错啦</span>
+        </div>
+        <div id="usernameMail">
+            <span id="emailSpan">
+                邮箱：
+            </span>
+            <input type="email" id="email" name="email" />
+            <span id="emailInfo">邮箱名称只能由6 ~ 12位的数字组成，域名只能由qq.com/163.com/sina.cn</span>
+        </div>
+    </form>
+    <script>
+        let username = document.getElementById('username');// 用户名
+        let password = document.getElementById('password');// 密码        
+        let dblpassword = document.getElementById('dblpassword');   // 确认密码
+        let email = document.getElementById('email');   // 邮箱
+        let emailInfo = document.getElementById('emailInfo');   // 邮箱信息
+        let iconfontName = document.getElementById('iconfontName');// 图标name
+        let iconfontPwd = document.getElementById('iconfontPwd');// 图标pwd
+        let confirmInfo = document.getElementById('confirmInfo');// 确认信息
+        let info = document.getElementById('info');
+        let showP = document.getElementById('showP');
+        let angle = document.getElementById('angle');
+        let timer = 0;
+        let timerPwd = 0;
+        let pwd = '';
+        let name = '';
+        username.addEventListener('input', (e) => {
+            name = e.target.value;
+            clearTimeout(timer);
+            const reg = /^[^_]\w{5,11}$/g;
+            timer = setTimeout(() => {
+                if (e.target.value) {
+                    angle.style.display = 'inline-block';
+                    showP.style.display = 'inline-block';
+                    showP.innerHTML = e.target.value;
+                    if (reg.test(e.target.value)) {
+                        iconfontName.style.color = 'green';
+                        iconfontName.style.display = 'inline-block';
+                        iconfontName.innerHTML = '&#xe617;';
+                        info.style.display = 'none';
+                    } else {
+                        iconfontName.style.color = 'red';
+                        iconfontName.style.display = 'inline-block';
+                        iconfontName.innerHTML = '&#xe65a;';
+                        info.style.display = 'block';
+                    }
+                } else {
+                    showP.innerHTML = '';
+                    showP.style.display = 'none';
+                    angle.style.display = 'none';
+                    info.style.display = 'none';
+                    iconfontName.style.display = 'none';
+                }
+            }, 200)
+        });
+        function nameHandle() {
+            showP.style.display = 'none';
+            angle.style.display = 'none';
+        }
+        function nameFHandle() {
+            if (name) {
+                showP.style.display = 'inline-block';
+                angle.style.display = 'inline-block';
+            }
+        }
+        password.addEventListener('input', (e) => {
+            pwd = e.target.value;
+            const reg = /^[^_]\w{5,11}$/g;
+            if (pwd) {
+                if (reg.test(pwd)) {
+                    iconfontPwd.style.color = 'green';
+                    iconfontPwd.style.display = 'inline-block';
+                    iconfontPwd.innerHTML = '&#xe617;';
+                } else {
+                    iconfontPwd.style.color = 'red';
+                    iconfontPwd.style.display = 'inline-block';
+                    iconfontPwd.innerHTML = '&#xe65a;';
+                }
+            } else {
+                iconfontPwd.style.display = 'none';
+            }
+        });
+        dblpassword.addEventListener('input', (e) => {
+            clearInterval(timerPwd);
+            timerPwd = setTimeout(() => {
+                if (e.target.value) {
+                    if (e.target.value !== pwd) {
+                        confirmInfo.style.display = 'inline-block';
+                        console.log('不对');
+                    } else {
+                        console.log('对了');
+                        confirmInfo.style.display = 'none';
+                    }
+                } else {
+                    confirmInfo.style.display = 'none';
+                }
+            }, 200);
+        });
+        email.addEventListener('input', (e) => {
+            const reg = /^\d{5,12}@(qq.com|163.com|sina.cn)$/g;
+            if (e.target.value) {
+                if (reg.test(e.target.value)) {
+                    emailInfo.style.display = 'none'
+                } else {
+                    emailInfo.style.display = 'inline-block'
+                }
+            } else {
+                emailInfo.style.display = 'none'
+            }
+
+        })
+    </script>
+</body>
+
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .search {
+            position: relative;
+            width: 200px;
+            margin: 100px auto;
+        }
+
+        .con {
+            position: absolute;
+            left: 2px;
+            top: -34px;
+            display: none;
+            border: 1px solid skyblue;
+            padding: 0 3px;
+            font-size: 20px;
+        }
+
+        .con::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            top: 27px;
+            left: 8px;
+            border: 5px solid transparent;
+            border-top: 5px solid skyblue;
+        }
+
+        input {
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="search">
+        <div class="con"></div>
+        <input type="text" placeholder="请输入快递单号">
+    </div>
+    <script>
+        var con = document.querySelector('.con');
+        var ipt = document.querySelector('input');
+        ipt.addEventListener('keyup', function () {
+            if (this.value == '') {
+                con.style.display = 'none';
+            } else {
+                con.style.display = 'block';
+                con.innerHTML = this.value;
+            }
+        })
+        // 失去焦点，隐藏con盒子
+        ipt.addEventListener('blur', function () {
+            con.style.display = 'none';
+        })
+        // 获得焦点，显示con盒子
+        ipt.addEventListener('focus', function () {
+            if (this.value != '') {
+                con.style.display = 'block';
+            }
+        })
+    </script>
+</body>
+
+</html> -->

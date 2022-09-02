@@ -1,0 +1,55 @@
+<!Doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>setInterval定时器</title>
+</head>
+
+<body>
+    <p>点击按钮查看效果(2s后弹出): <input type="button" value="setTimeout" /> <input type="button" value="clearTimeout" /></p>
+    <p>点击按钮查看效果(每2s弹出): <input type="button" value="setInterval" /> <input type="button" value="clearInterval" /></p>
+    <div id="ul1">
+        <input type="text" id="clock" size="35" />
+        <button onclick="window.clearInterval(c)">stop Interval</button>
+    </div>
+    <script type="text/javascript">
+        var c = self.setInterval("clock()", 50);
+        function clock() {
+            var t = new Date();
+            document.getElementById("clock").value = t;
+        }
+        var timeout = function () {
+            console.log('等待2s后弹出,仅此一次!在等待时间内clearTimeout可停止执行!')
+        }
+        var interval = function () {
+            console.log('每2s循环弹出,直至clearInterval或关闭窗口!')
+        }
+        var input = document.getElementsByTagName('input');
+
+        console.log(input.length);
+
+        var clearTimeoutFun = null;
+        var clearIntervalFun = null;
+
+        input[0].onclick = function () {
+            clearTimeoutFun = setTimeout(timeout, 2000);
+            // console.log(clearTimeoutFun);
+        }
+        input[1].onclick = function () {
+            clearTimeout(clearTimeoutFun);
+            console.log(clearTimeoutFun);
+            // clearTimeoutFun = null;
+        }
+        input[2].onclick = function () {
+            clearIntervalFun = setInterval(interval, 2000);
+        }
+        input[3].onclick = function () {
+            clearInterval(clearIntervalFun);
+        }
+
+    </script>
+</body>
+
+</html>

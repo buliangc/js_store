@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>拖拽盒子</title>
+    <style>
+        body,
+        html {
+            height: 100%;
+            width: 100%;
+        }
+
+        #draggable {
+            background: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 200px;
+            height: 50px;
+            font-size: 2rem;
+        }
+
+        #draggable:hover {
+            cursor: pointer
+        }
+
+        .no-select {
+            user-select: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div id="draggable">drag me</div>
+    </div>
+
+    <script>
+        var isMouseDown, initX, initY;
+
+        var draggable = document.getElementById('draggable');
+        var height = draggable.offsetHeight,    // 获取 div 元素的宽度，包含内边距（padding）和边框（border）:
+            width = draggable.offsetWidth;
+        draggable.addEventListener('mousedown', function (e) {
+            isMouseDown = true;
+            initX = e.offsetX;  // 鼠标点击事件是X坐标
+            initY = e.offsetY;
+            document.body.classList.add('no-select');
+            console.log("mousedown " + initX, initY);
+        })
+        // 点击下去那一刻相对于鼠标位置
+        document.addEventListener('mousemove', function (e) {
+            // e.clientX  鼠标X位置
+            // e.clientX - initX  鼠标相对于点击时刻的X位置
+            if (isMouseDown) {
+                var cx = e.clientX - initX,
+                    cy = e.clientY - initY;
+                console.log(cx, cy);
+                if (cx < 0) {
+                    cx = 0;
+                }
+                if (cy < 0) {
+                    cy = 0;
+                }
+                // innerHeight 返回窗口的文档显示区的高度
+                if (window.innerWidth - e.clientX + initX < width) {
+                    cx = window.innerWidth - width;
+                }
+                if (e.clientY > window.innerHeight - height + initY) {
+                    cy = window.innerHeight - height;
+                }
+                draggable.style.left = cx + 'px';
+                draggable.style.top = cy + 'px';
+            }
+        })
+
+        draggable.addEventListener('mouseup', function () {
+            isMouseDown = false;
+            document.body.classList.remove('no-select');
+        })
+
+        document.addEventListener('mouseup', function (e) {
+            if (e.clientY > window.innerWidth || e.clientY < 0 || e.clientX < 0 || e.clientX > window.innerHeight) {
+                isMouseDown = false;
+                document.body.classList.remove('no-select');
+            }
+        });
+    </script>
+</body>
+
+</html>

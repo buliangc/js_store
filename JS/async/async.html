@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // fetch("http://localhost:4000/images/1.jpg").then(value => {
+        //     return value.blob();
+        // }).then(myBlob => {
+        //     let objectURL = URL.createObjectURL(myBlob);
+        //     let image = document.createElement('img');
+        //     image.src = objectURL;
+        //     document.body.appendChild(image);
+        // }).catch(err => {
+        //     console.log('There has been a problem with your fetch operation: ' + err.message);
+        // });
+
+        // // 转化成async await
+        // async function myFetch() {
+        //     let response = await fetch("http://localhost:4000/images/1.jpg");
+        //     let myBlob = await response.blob();
+
+        //     let objectURL = URL.createObjectURL(myBlob);
+        //     let image = document.createElement('img');
+        //     image.src = objectURL;
+        //     document.body.appendChild(image);
+        // };
+        // myFetch().catch(err => {
+        //     console.log('There has been a problem with your fetch operation: ' + err.message);
+        // });
+
+        // Promise.all 用于全部执行
+        async function fetchAndDecode(url, type) {
+            let response = await fetch("http://localhost:4000/images/"+url);
+
+            let content;
+
+            if(type === 'blob') {
+                content = await response.blob();
+            } else if(type === 'text') {
+                content = await response.text();
+            }
+            return content;
+        }
+        let p1 = fetchAndDecode('1.jpg', 'blob');
+        let p2 = fetchAndDecode('2.png', 'blob');
+        let p3 = fetchAndDecode('3.jpg', 'blob');
+        console.log(p1);
+        let values = Promise.race([p1, p2, p3]);
+        Promise.resolve(values).then(values => {
+            // values.forEach(value => {
+            //     let objectURL = URL.createObjectURL(value);
+            //     let image = document.createElement('img');
+            //     image.src = objectURL;
+            //     document.body.appendChild(image);
+            // })
+            let objectURL = URL.createObjectURL(values);
+            let image = document.createElement('img');
+            image.src = objectURL;
+            document.body.appendChild(image);
+        })
+    </script>
+</body>
+</html>

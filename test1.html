@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // var length = 10;
+        // function fn() {
+        //     console.info(this.length)
+        // }
+        // fn();  // 10
+        // let Person = {
+        //     len: 5,
+        //     say: function () {
+        //         fn();  // 10
+        //         arguments[0]();  // 1
+        //     }
+        // }
+        // Person.say(fn);
+        // let long = 10;
+        // function fn() {
+        //     console.info(this)
+        //     console.info(this.length)
+        // }
+        // fn();
+        // let Person = {
+        //     long: 5,
+        //     say: function () {
+        //         fn();
+        //         console.log('arguments', arguments);
+        //         // arguments.len = 20;
+        //         console.log(arguments[0]);
+        //         arguments[0]();
+        //     }
+        // }
+        // Person.say(fn);
+        // arguments是一个伪数组
+
+        // var name = 'window'; // 其实是window.name = 'window'
+
+        // var A = {
+        //     name: 'A',
+        //     sayHello: function () {
+        //         console.log(this.name)
+        //     }
+        // }
+
+        // A.sayHello();// 输出A
+
+        // var B = {
+        //     name: 'B'
+        // }
+
+        // A.sayHello.call(B);//输出B
+
+        // A.sayHello.call();//不传参数指向全局window对象，输出window.name也就是window
+
+        // function getType(obj) {
+        //     // let type = typeof obj;
+        //     // if (type !== 'object') {
+        //     //     return type;
+        //     // }
+        //     return Object.prototype.toString.call(obj).slice(8, -1)
+        // }
+        // console.log(getType({}));
+        // let lastElement;
+        // arr = [1, 6, 2, 13, 4, 5]
+        // arr.forEach(element => {
+        //     lastElement = lastElement > element ? lastElement : element;
+        // });
+        // let newarr = arr.sort((a, b) => a - b);
+        // console.log(newarr);
+        // console.log(Math.max(arr));
+        // let name = 'sss'
+        // let obj = {
+        //     name: 'cc',
+        //     age: 18,
+        //     say: () => {
+        //         console.log(this.name);
+        //     }
+        // }
+        // function getName(name, age) {
+        //     this.name = 'buliangc';
+        //     this.age = age;
+        // }
+        // function fn() {
+        //     console.log(arguments);
+        //     for (let index = 0; index < arguments[0].length; index++) {
+        //         console.log(arguments[0][index] + this.name);
+        //     }
+
+        // };
+        // // fn('sss', 'ddd');
+        // Function.prototype.myCall = function (thisObj, ...args) {
+        //     console.log(this);
+        //     var thisObj = thisObj || window;
+        //     thisObj.fn = this; // 此时this就是函数fn
+        //     console.log(thisObj);
+        //     // thisObj.fn(); // 执行fn
+        //     // 使用eval恶魔执行
+        //     eval("thisObj.fn(...args)");
+        //     delete thisObj.fn; //删除fn
+        // }
+        // // fn.myCall(obj, 'hhh', 'bbb');
+        // // 就是为了改变this指向
+        // // 秉着this隐式绑定的原则，this指向fn。直接当成属性添加在obj上面，接下来相当于在执行obj上的属性。
+        // // 自然this就指向obj，
+        // // 实现一个apply方法，区别就是传递一个数组
+        // Function.prototype.myApply = function (thisObj, args) {
+        //     console.log(args);
+        //     let type = Object.prototype.toString.call(args).slice(8, -1);
+        //     console.log(type);
+        //     if (type !== 'Array') {
+        //         throw new Error('Whoops!');
+        //         return;
+        //     }
+        //     thisObj = thisObj || window;
+        //     // 因为this就代指了调用它的函数，用this赋值就相当于给thisObj添加了一个fn属性
+        //     thisObj.fn = this;
+        //     eval("thisObj.fn(args)");
+        //     delete thisObj.fn;
+        // }
+        // fn.myApply(obj, [1, 2, 3]);
+        // function say() {
+        //     // some code
+        //     console.log(this.name);
+        // }
+
+        // const obj = {
+        //     // some code
+        //     name: 'buliangc',
+        //     age: 18
+        // }
+
+        // Function.prototype.myApply = function (thisObj, args) {
+        //     const obj = thisObj || window;
+        //     obj.fn = this;
+        //     let res;
+        //     if (args) {
+        //         res = obj.fn(...args);
+        //     } else {
+        //         console.log("zzz");
+        //         res = obj.fn();
+        //     };
+        //     delete obj.fn;
+        //     return res;
+        // }
+        // Function.prototype.myCall = function (thisObj, ...args) {
+        //     const obj = thisObj || window;
+        //     obj.fn = this;
+        //     let res;
+        //     if (args) {
+        //         res = obj.fn(...args);
+        //     } else {
+        //         console.log("zzz");
+        //         res = obj.fn();
+        //     };
+        //     delete obj.fn;
+        //     return res;
+        // }
+        // Function.prototype.myBind = function (thisArg, ...arg) {
+        //     const fn = this;
+        //     return function () {
+        //         return fn.apply(thisArg, arg);
+        //     }
+        // }
+        // say.myCall(obj, "xxx")
+        // say.myApply(obj, ["xxx"])
+        // say.myBind(obj, "xxx")()
+
+        // for in for of
+        // let arr = ["a", "b", "c"];
+        // let obj = { a: 1, b: 2, c: 3 };
+        // for (let item in obj) {
+        //     console.log(item);	// a b c
+        //     console.log(obj[item])
+        // }
+        // var count = 10;
+        // function a() {
+        //     console.log(this);
+        //     return count + 10;
+        // }
+
+        // function b() {
+        //     console.log(window.count);
+        //     var count = 20;
+        //     console.log(window.count);
+        //     return a();
+        // }
+
+        // console.log(b());
+
+    </script>
+    <ul>
+        <li>.</li>
+        <li>.</li>
+        <li>.</li>
+    </ul>
+
+    <script type="text/javascript">
+        // 补全代码
+        document.querySelector('ul').onclick = function (e) {
+            console.log(e.target);
+            if (e.target.tagName === "LI") {
+                e.target.innerHTML += ".";
+            }
+        }
+
+    </script>
+</body>
+
+</html>

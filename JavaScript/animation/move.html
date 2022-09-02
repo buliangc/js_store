@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        #box {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            background: palevioletred;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box" style="left: 0; top: 50px;"></div>
+    <button id="btn">stop</button>
+</body>
+<script type="text/javascript">
+    var speed = 10;
+    var flag = true;
+    var interId;
+    // 窗口的内在宽度 window.innerWidth
+    function moveLeft() {
+        var oldLeft = parseInt(box.style.left);
+        console.log(oldLeft, window.innerWidth);
+        if (oldLeft >= window.innerWidth - 50 || oldLeft < 0) {
+            speed *= -1;
+        }
+        box.style.left = oldLeft + speed + "px";
+    }
+
+    function moveTop() {
+        var oldTop = parseInt(box.style.top);
+
+        if (oldTop >= window.innerHeight - 50 || oldTop < 0) {
+            speed *= -1;
+        }
+        box.style.top = oldTop + speed + "px";
+    }
+
+    function onOff(rand) {
+        //     var rand = random(); 
+        if (flag) {
+            btn.innerHTML = "start";
+            clearInterval(interId);
+            flag = false;
+        } else {
+            btn.innerHTML = "stop";
+            // if (rand == 1) {
+            interId = setInterval("moveLeft()", 50);
+            //         flag = true; 
+            // } else {
+            //     interId = setInterval("moveTop()", 50);
+            //     //         flag = true; 
+            // }
+            flag = true;
+        }
+    }
+
+    btn.onclick = onOff;
+
+    //产生一个1-2的随机数 
+    function random() {
+        rand = parseInt(Math.random() * 2 + 1);
+        alert(rand);
+
+        if (rand == 1) {
+            interId = setInterval(moveLeft, 50);
+        } else {
+            interId = setInterval(moveTop, 50);
+        }
+    }
+
+    random();
+
+</script>
+
+</html>

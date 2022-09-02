@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <div id="root">
+        <p>p1 </p>
+        <span>
+            <span>span2 </span>
+        </span>
+        <p>p2 </p>
+    </div>
+    <script>
+        // 问题：遍历DOM树并打印出DOM节点的tagName和className
+        traverse(document.getElementById('root'));
+        function traverse(root) {
+            console.log(root);
+            // let res = []
+            // function dfs(root, queue) {
+            //     queue.push(root)
+            //     console.log(queue)
+            //     if (!root.childNodes) {
+            //         res.push(queue)
+            //         queue = [root]
+            //         return
+            //     }
+            //     const childs = root.childNodes
+            //     for (let item in childs) {
+            //         dfs(item, queue)
+            //     }
+            // }
+            // dfs(root, [])
+            // return res
+        }
+    </script>
+</body>
+
+</html>

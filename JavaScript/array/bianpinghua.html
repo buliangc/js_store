@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let arr = [1, 2, [3, 4, [5, 6, 7, [8, 9]]]];
+        // function checkArr(arr) {
+        //     return;
+        // }
+
+        // let newArr = [];
+        // function bianpinghua(targetArr) {
+        //     targetArr.map(value => {
+        //         Array.isArray(value) ? bianpinghua(value) : newArr.push(value);
+        //     });
+        //     return newArr
+        // }
+
+        // console.log('bianpinghua', bianpinghua(arr));
+
+        // function flatten(targetArr) {
+        //     return targetArr.reduce(function (preVal, next) {
+        //         return preVal.concat(Array.isArray(next) ? flatten(next) : next)
+        //     }, []);
+        // }
+
+        // console.log(flatten(arr));
+
+        // function flattenNext(targetArr) {
+        //     while (arr.some(item => Array.isArray(item))) {
+        //         arr = [].concat(...arr);
+        //     }
+        //     return arr;
+        // }
+        // console.log(flattenNext(arr));
+
+        // function flattennToString(targetArr) {
+        //     return targetArr.toString().split(',');
+        // }
+        // console.log(flattennToString(arr));
+
+        // console.log(arr.flat(Infinity));
+
+        // 利用正则和JSON的方式
+        function RegexJson(targetArr) {
+            let result = JSON.stringify(targetArr);
+            result = result.replace(/(\[|\])/g, '');
+            result = '[' + result + ']';
+            result = JSON.parse(result)
+            console.log(Object.prototype.toString.call(result).slice(8, -1));
+            return result;
+        }
+        console.log(RegexJson(arr));
+    </script>
+</body>
+
+</html>

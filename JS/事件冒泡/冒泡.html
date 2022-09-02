@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        #a {
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+
+        #b {
+            width: 50px;
+            height: 50px;
+            background: green;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='a'>
+        <div id='b'>
+            <p id="p">111</p>
+        </div>
+
+    </div>
+</body>
+<script type="text/javascript">
+    var a = document.getElementById('a');
+    var b = document.getElementById('b');
+    var p = document.getElementById('p');
+    // a.onclick = function () {
+    //     alert('a')
+    // }
+    // b.onclick = function () {
+    //     alert('b')
+    // }
+    // p.onclick = function () {
+    //     alert('p')
+    // }
+    a.addEventListener('click', function () {
+        alert('a');
+    }, true);
+    b.addEventListener('click', function () {
+        alert('b')
+        ///阻止事件捕获
+        event.stopPropagation()
+    }, true)
+    p.addEventListener('click', function () {
+        alert('p')
+    }, true)
+</script>
+
+</html>

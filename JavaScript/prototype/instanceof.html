@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function MyConstructor(name, age) {
+            this.name = name;
+            this.age = age;
+            this.func = function () {
+                console.log(this.name);
+            }
+        }
+
+        const instance = new MyConstructor('buliangc', 18);
+        // console.log(instance.__proto__ === MyConstructor.prototype);
+        function myInstanceof(left, right) {
+            let a = left.__proto__;
+            let b = right.prototype;
+            while (true) {
+                if (left == null) {
+                    return false;
+                } else if (left == b) {
+                    return true;
+                }
+                left = left.__proto__;
+                // console.log("left", left);
+            }
+        }
+        const p = myInstanceof({}, Array);
+        console.log(p);
+    </script>
+</body>
+
+</html>

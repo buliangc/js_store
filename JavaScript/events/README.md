@@ -1,0 +1,4 @@
+实现一个EventEmitter
+在浏览器端实现一个这样的EventEmitter
+自己封装一个能在浏览器中跑的EventEmitter
+它可以实现自定义事件的订阅和发布

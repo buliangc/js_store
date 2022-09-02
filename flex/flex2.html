@@ -1,0 +1,47 @@
+<!--  实现父元素垂直居中，两个子元素 一个宽度40 另一个占满 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #box {
+            display: flex;
+            width: 200px;
+            height: 200px;
+            background-color: blue;
+            vertical-align: middle;
+            margin: auto;
+        }
+
+        #left {
+            width: 40px;
+            height: 100%;
+            background-color: blueviolet;
+        }
+
+        #right {
+            height: 100%;
+            flex: 1;
+            background-color: chocolate;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <div id="left"></div>
+        <div id="right"></div>
+    </div>
+
+</body>
+
+</html>

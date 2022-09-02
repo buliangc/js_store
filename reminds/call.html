@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手写Call</title>
+</head>
+
+<body>
+    <script>
+        let obj = {
+            name: 'bulaignc',
+            age: 18,
+        }
+
+        function back(params) {
+            console.log(this);
+            console.log(this.name + params);
+        }
+        // 改变其中this执行，
+        // 首先Call传递两个参数 第一个是要改变的this对象，第二个是传递参数
+        Function.prototype.myCall = function (thisObj, ...arg) {
+            thisObj = thisObj || window;
+            thisObj.fn = this;
+            console.log(thisObj);
+            eval("thisObj.fn(...arg)");
+            delete thisObj.fn;
+        }
+        back.myCall(obj, 'double');
+        console.log(obj);
+    </script>
+</body>
+
+</html>

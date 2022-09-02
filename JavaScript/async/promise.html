@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise学习</title>
+</head>
+
+<body>
+    <div>这是Promise</div>
+    <div></div>
+    <script>
+        // let imgUrl = 'https://images.pexels.com/photos/2690765/pexels-photo-2690765.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260';
+        // let imgPromise = (url) => {
+        //     return new Promise((resolve, reject) => {
+        //         let img = new Image();
+        //         img.src = url;
+        //         img.onload = () => {
+        //             resolve(img);
+        //         }
+        //         img.onerror = () => {
+        //             reject('Error 图片地址有误!')
+        //         }
+        //     });
+        // };
+        // imgPromise(imgUrl)
+        //     .then((img) => {
+        //         document.body.appendChild(img);
+        //     })
+        //     .catch((err) => {
+        //         document.body.innerHTML = err;
+        //     });
+        //     //利用Promise封装setTimeout定时器;
+        //     function timeOut(delay) {
+        //         return new Promise(resolve => {
+        //             setTimeout(() => {
+        //                     resolve
+        //             }, delay);
+        //         })
+        //     }
+        // const p1 = new Promise((resolve, reject) => {
+        //     resolve('第一个任务');
+        // })
+        // const p2 = new Promise((resolve, reject) => {
+        //     setTimeout(() => {
+        //         reject('第二个任务')
+        //     }, 1000);
+        // })
+        // const p3 = new Promise((resolve, reject) => {
+        //     setTimeout(() => {
+        //         reject('第三个任务');
+        //     }, 500);
+        // })
+        // Promise.all([p1, p2, p3]).then(
+        //     result => console.log(result)
+        // ).catch(
+        //     e => console.log(e)
+        // )//第三个任务
+        // const p1 = new Promise((resolve, reject) => {
+        //     setTimeout(() => {
+        //         resolve('hello');
+        //     }, 5000);
+        // })
+        // const p2 = new Promise((resolve, reject) => {
+        //     setTimeout(() => {
+        //         resolve(1);
+        //     }, 10000);
+        // })
+        // Promise.all([p1, p2]).then(//传入的是两个promise对象
+        //     result => console.log(result)
+        // ).catch(
+        //     e => console.log(e)
+        // )// Array(2) ["hello", 1]
+        // const p1 = new Promise((resolve, reject) => {
+        //     setTimeout(() => {
+        //         resolve('第一个任务');
+        //     }, 200);
+        // })
+        // const p2 = new Promise((resolve, reject) => {
+        //     setTimeout(() => {
+        //         reject('第二个任务')
+        //     }, 100);
+        // })
+        // const p3 = new Promise((resolve, reject) => {
+        //     setTimeout(() => {
+        //         resolve('第三个任务');
+        //     }, 500);
+        // })
+        // Promise.race([p1, p2, p3]).then(
+        //     result => console.log(result)
+        // ).catch(
+        //     e => console.log(e)
+        // )//第一个任务
+
+        const p = Promise.reject('出错了');
+        // 等同于
+        // const p = new Promise((resolve, reject) => reject('出错了'))
+
+        p.then(function (s) {
+            console.log("s", s);
+        }, function (e) {
+            console.log("e", e)      // 出错了
+        });
+        p.catch((err) => {
+            console.log("err", err);
+        })
+
+
+    </script>
+</body>
+
+</html>

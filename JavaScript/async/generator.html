@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator</title>
+</head>
+
+<body>
+    <script>
+        // generator最终返回的是迭代器
+        // function* fib(max) {
+        //     var
+        //         t,
+        //         a = 0,
+        //         b = 1,
+        //         n = 0;
+        //     while (n < max) {
+        //         yield a;
+        //         [a, b] = [b, a + b];
+        //         n++;
+        //     }
+        //     return;
+        // }
+        // let f = fib(5);
+        // console.log(f);
+        // f.next(); // {value: 0, done: false}
+        // f.next(); // {value: 1, done: false}
+        // f.next(); // {value: 1, done: false}
+        // f.next(); // {value: 2, done: false}
+        // console.log(f.next()); // {value: 3, done: false}
+        // console.log(f.next()); // {value: undefined, done: true}
+
+        function* gen() {
+            console.log("enter");
+            let a = yield 1;
+            let b = yield (
+                function () {
+                    return 2;
+                }
+            )();
+        };
+        var g = gen();  // 阻塞住，不会执行任何语句
+        console.log(typeof g);  // 返回的是Object, 不是function
+        console.log(g.next());
+        console.log(g.next());
+        console.log(g.next());
+
+    </script>
+</body>
+
+
+</html>

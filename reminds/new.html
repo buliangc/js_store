@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>回顾手写new</title>
+</head>
+
+<body>
+    <script>
+        // 首先返回一个对象 
+        // 继承构造函数的原型链属性和实例属性
+        function Gouzao(name, age) {
+            this.name = name;
+            this.age = age;
+        }
+        function myNew(target, ...arg) {
+            let obj = new Object();
+            obj.__proto__ = target.prototype;
+            let result = target.apply(obj, arg);
+            console.log(result);
+            return obj;
+        }
+        let p = myNew(Gouzao, 'bulaingc', 18);
+        console.log(p.name);
+    </script>
+</body>
+
+</html>

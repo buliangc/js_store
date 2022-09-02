@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise A+规范</title>
+</head>
+
+<body>
+    <script>
+        // 先定义三个常量表示状态
+        const PENDING = 'pending';
+        const FULFILLED = 'fulfilled';
+        const REJECTED = 'rejected';
+        class MyPromise {
+            constructor(executor) {
+                this.status = PENDING;
+                this.value = null;
+                this.reason = null;
+                this.onFulfilledCallbacks = [];
+                this.onRejectedCallbacks = [];
+                try {
+                    executor(this.resolve, this.reject);
+                } catch (error) {
+                    this.reject(error);
+                }
+
+            }
+            // resolve = (value) => {
+            //     if (this.status !== PENDING) return;
+            //     this.status = FULFILLED;
+            //     this.value = value;
+            //     while (this.onFulfilledCallbacks.length) {
+            //         this.onFulfilledCallbacks && this.onFulfilledCallbacks.shift()(value);
+            //     }
+            // }
+            // reject = (reason) => {
+            //     if (this.status !== PENDING) return;
+            //     this.status = REJECTED;
+            //     this.value = reason;
+            //     while (this.onRejectedCallbacks.length) {
+            //         this.onRejectedCallbacks && this.onRejectedCallbacks.shift()(reason);
+            //     }
+            // }
+            resolve = (value) => {
+                if (this.status !== PENDING) return;
+                // 更改期约状态
+                this.status = FULFILLED;
+                // 更改成功之后的值
+                this.value = value;
+                // 判定成功回调是否存在，如果存在就进行调用
+                // this.onFulfilledCallback && this.onFulfilledCallback(value);
+                while (this.onFulfilledCallbacks.length) {
+                    this.onFulfilledCallbacks.shift()(value);
+                }
+            }
+            reject = (reason) => {
+                if (this.status !== PENDING) return;
+                this.status = REJECTED;
+                this.reason = reason;
+                // 判定失败回调是否存在，如果存在就进行调用
+                // this.onRejectedCallback && this.onRejectedCallback(reason);
+                while (this.onFulfilledCallbacks.length) {
+                    this.onRejectedCallbacks.shift()(reason);
+                }
+            }
+            // then 多次调用 链式调用
+            // then实现链式调用的关键在于返回一个新的promise2
+            then(onFulfilled, onRejected) {
+                // then的参数是可有可无的  如果不传，就使用默认函数
+                // const onFulfilled = typeof (onFulfilled) === 'function' ? onFulfilled : value => value;
+                // const onRejected = typeof (onRejected) === 'function' ? onRejected : reason => reject(reason);
+                onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : value => value;
+                onRejected = typeof onRejected === 'function' ? onRejected : reason => { throw reason };
+
+                const promise2 = new MyPromise((resolve, reject) => {
+                    if (this.status === FULFILLED) {
+                        queueMicrotask(() => {
+                            try {
+                                const x = onFulfilled(this.value);
+                                resolvePromise(promise2, x, resolve, reject);
+                            } catch (error) {
+                                reject(error)
+                            }
+                        })
+                    } else if (this.status === REJECTED) {
+                        queueMicrotask(() => {
+                            try {
+                                const x = onRejected(this.reason);
+                                resolvePromise(promise2, x, resolve, reject);
+                            } catch (error) {
+                                onRejected(error);
+                            }
+                        })
+                    } else if (this.status === PENDING) {
+                        this.onFulfilledCallbacks.push(() => {
+                            queueMicrotask(() => {
+                                try {
+                                    // 获取成功回调函数的执行结果
+                                    const x = onFulfilled(this.value);
+                                    // 传入 resolvePromise 集中处理
+                                    resolvePromise(promise2, x, resolve, reject);
+                                } catch (error) {
+                                    reject(error);
+                                }
+                            })
+                        });
+                        this.onRejectedCallbacks.push(() => {
+                            queueMicrotask(() => {
+                                try {
+                                    // 获取成功回调函数的执行结果
+                                    const x = onRejected(this.reason);
+                                    // 传入 resolvePromise 集中处理
+                                    resolvePromise(promise2, x, resolve, reject);
+                                } catch (error) {
+                                    reject(error);
+                                }
+                            })
+                        });
+                    }
+                })
+                return promise2;
+            }
+        }
+        // 处理promise的值穿透问题
+        function resolvePromise(promise2, x, resolve, reject) {
+            // 如果x是promise，就继续执行自身的then方法，如果是fulfilled状态，就执行resolve(value)，将值传递下去。如果是reject的状态就执行reject。
+            if (x instanceof MyPromise) {
+                x.then(value => resolve(value), reason => reject(reason));
+            } else {
+                resolve(x);
+            }
+        }
+        // const promise = new MyPromise((resolve, reject) => {
+        //     resolve('success')
+        // })
+        // function other() {
+        //     return new MyPromise((resolve, reject) => {
+        //         console.log('执行了other');
+        //         resolve('other~');
+        //     })
+        // }
+        // promise.then((value) => {
+        //     console.log("success", value);
+        //     return other();
+        // }).then((value) => {
+        //     console.log("other", value);
+        // })
+        const promise = new MyPromise((resolve, reject) => {
+            resolve('succ')
+        })
+
+        promise.then().then().then(value => { console.log('执行了'); console.log(value) })
+// 处理完值穿透问题后，就要处理
+
+    </script>
+</body>
+
+</html>

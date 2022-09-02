@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <ul>
+        <li draggable="true">红</li>
+        <li draggable="true">橙</li>
+        <li draggable="true">黄</li>
+        <li draggable="true">绿</li>
+        <li draggable="true">蓝</li>
+    </ul>
+
+    <script>
+        var ul = document.getElementsByTagName("ul")[0];
+        // 把ul设置为有效的放置目标
+        ul.ondragover = function (event) {
+            event.preventDefault();
+        };
+        var draging; // 存放被拖动元素
+        ul.ondragstart = function (event) {
+            draging = event.target;
+        }
+        ul.ondrop = function (event) {
+            var target = event.target; // 放置目标
+            if (target.nodeName === "LI" && target !== draging) {
+                if (getIndex(draging) < getIndex(target)) {
+                    target.parentNode.insertBefore(draging, target.nextSibling);
+                } else {
+                    target.parentNode.insertBefore(draging, target);
+                }
+            }
+        };
+        // 获取当前元素index
+        function getIndex(el) {
+            var index = 0;
+            if (!el || !el.parentNode) {
+                return -1;
+            }
+            while (el = el.previousElementSibling) {
+                index++;
+            }
+            return index;
+        }
+    </script>
+
+</body>
+
+</html>

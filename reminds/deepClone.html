@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深拷贝DeepClone</title>
+</head>
+
+<body>
+    <script>
+        function typeCheck(params) {
+            return Object.prototype.toString.call(params).slice(8, -1);
+        }
+        // 深拷贝 原型链属性和实例属性
+        function deepClone(target) {
+            let result = typeCheck(target) === 'Object' ? new Object() : [];
+            // 判断基本数据类型和引用数据类型
+            if (typeof (target) === 'object' && target !== null) {
+                for (let prop in target) {
+                    if (typeCheck(target[prop]) === 'Object' || typeCheck(target[prop]) === 'Array') {
+                        let mid = deepClone(target[prop]);
+                        result[prop] = mid;
+                    } else {
+                        result[prop] = target[prop];
+                    }
+                }
+                return result;
+            } else {
+                return target;
+            }
+        }
+        let deepResult = deepClone({ name: 'bulaingc', age: 18, sex: { self: 'male' } })
+    </script>
+</body>
+
+</html>

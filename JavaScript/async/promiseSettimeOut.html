@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise封装setTimeOut</title>
+    <style>
+        #box {
+            width: 200px;
+            height: 200px;
+            left: 0px;
+            background-color: tomato;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='box' style="left: 0; top: 50px;"></div>
+    <script>
+
+        // function timeOut(delay) {
+        //     return new Promise(resolve => {
+        //         console.log(resolve);
+        //         setTimeout(resolve, delay);
+        //     })
+        // }
+        // timeOut(2000).then(() => {
+        //     console.log('两秒后输出');
+        // })
+        // let flag = false;
+        // var p = new Promise(function (resolve, reject) {
+        //     var timer = setTimeout(function () {
+        //         console.log('执行定时器操作');
+        //         if (flag) {
+        //             resolve('成功拿到resolve数据');
+        //         } else {
+        //             reject('阿偶,出错喽~')
+        //         }
+        //     }, 2000);
+        // });
+        // console.log(p);
+        // p.then(function (data) {
+        //     console.log(p);
+        //     console.log(data);
+        //     console.log('这是成功操作');
+        // }).catch((error) => {
+        //     console.log(p);
+        //     console.log(error);
+        //     console.log('这是失败操作');
+        // })
+
+        // 使用Promise封装一个setTimeout
+        // 因为resolve本身就是一个函数,定时器在延时结束后会自动执行
+        // setTimeout的第一个参数必须是一个函数方法，因为是resolve是函数，所以可以。
+        // 但如果是resolve()，则无法执行，因为resolve()函数默认返回值是undefined。
+        // 不能是一个可执行的语句，不然定时器会不起效果
+        // function timeOut(delay) {
+        //     return new Promise((resolve, reject) => {
+        //         setTimeout(resolve, delay)
+        //     })
+        // }
+        // timeOut(2000).then(() => {
+        //     console.log('执行第一次的定时器操作');
+        //     return timeOut(2000)
+        // }).then(() => {
+        //     console.log('执行第二次的定时器操作');
+        // })
+        // Promise异步加载一张图片
+        // let imgUrl = './assets/mountain1.jpeg';
+        // //Promise 后面的属于宏任务，会立即执行。then里面的属于微任务。
+        // function loadImg(url) {
+        //     return new Promise((resolve, reject) => {
+        //         let img = new Image(300, 200);
+        //         img.src = url;
+        //         // img.onload = () => {
+        //         //     setTimeout(() => {
+        //         //         resolve(img)
+        //         //     }, 5000)
+        //         // };
+        //         img.onload = setTimeout(() => {
+        //             resolve(img)
+        //         }, 5000);
+        //         console.log('Promise宏任务');
+        //         img.onerror = () => {
+        //             reject('阿偶,图片地址出错了喔~')
+        //         };
+        //     })
+        // };
+        // loadImg(imgUrl)
+        //     .then((img) => {
+        //         console.log('then微任务--正确加载mountain1');
+        //         document.body.appendChild(img);
+        //     })
+        //     .catch((err) => {
+        //         document.body.innerHTML = err;
+        //     });
+        // var myImage = new Image(300, 200);
+        // myImage.src = './assets/mountain2.jpeg';
+        // document.body.appendChild(myImage);
+        // console.log('宏任务加载完成mountain2');
+        // var list = ['red', 'cornflowerblue', 'chartreuse', 'blue', 'green', 'teal', 'violet'];
+        // var rand = 0;
+        // function randomColor() {
+        //     rand = parseInt(Math.random() * 7);
+        //     return list[rand]
+        // }
+        // // Promise封装setInterval
+        // var speed = 10;
+        // function timeVal(delay, callback) {
+        //     return new Promise((resolve, reject) => {
+        //         let id = setInterval(() => {
+        //             callback(id, resolve);
+        //         }, delay);
+        //     })
+        // };
+        // timeVal(30, (id, resolve) => {
+        //     const div = document.querySelector('div');
+        //     // let left = parseInt(window.getComputedStyle(div).left);
+        //     let left = parseInt(box.style.left)
+        //     // console.log(left);
+        //     if (left > window.innerWidth - 800 || left < 0) {
+        //         speed *= -1;
+        //         // window.getComputedStyle(div).backgroundColor = 
+        //         div.style.backgroundColor = randomColor()
+        //         resolve(id);
+        //     }
+        //     box.style.left = left + speed + 'px';
+        // }).then((id) => {
+        //     console.log('then');
+        //     // clearInterval(id);
+        // })
+        // Promise.then这种成功的情况对应的是 await
+        // Promise.catch这种失败的情况对应的是 try...catch
+        // 用await 代替 Promise.then  await后面是Promise对象
+        // const data = await Promise.resolve('string');  const data = await 'string'; 
+        // 这两个是一样的 await后面会将数据封装成一个Promise对象
+        // await 会把普通值封装成 Promise对象 让后它有相当于then( )方法 接着去解析 拿到结果。一句话 封装解析两头忙
+        // 执行async函数,返回的都是Promise对象
+        // await后面 主要跟三种类型 1.Promsie对象 2.普通对象值 3.异步函数(会返回Promise对象)
+        async function yibu() {
+            return 1;
+        }
+        function test() {
+            let p = new Promise((resolve, reject) => {
+                resolve(3);
+            })
+            p.then(data => console.log(data))
+        };
+        test();
+        async function test1() {
+            // let p = new Promise((resolve, reject) => {
+            //     resolve(3);
+            // });
+            // const data = await p;
+            // const data = await Promise.resolve('string');
+            const data = await 'string';
+            console.log(data);
+        }
+        test1();
+
+        // 使用try...catch 代替catch 从而进行错误信息捕获
+        async function test2() {
+            let p = new Promise((resolve, reject) => {
+                reject('Sorry, something wrong!')
+            })
+            // p.catch(err => console.log("err:", err))
+            try {
+                let data = await p;
+                console.log(data);
+            } catch (err) {
+                console.log("try...catch:", err);
+            }
+        };
+
+        test2();
+    </script>
+</body>
+
+</html>

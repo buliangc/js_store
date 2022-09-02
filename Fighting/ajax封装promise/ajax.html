@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function myAjax(url, method = "post", async = false) {
+            const xhr = new XMLHttpRequest();
+            xhr.open(url, method, async);
+            xhr.onload = () => {
+                if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+                    console.log(xhr.responseText);
+                } else {
+                    console.log("Error:" + xhr.status);
+                }
+            };
+            xhr.send();
+        }
+    </script>
+    <button onclick="myAjax('123')">点击发送</button>
+
+</body>
+
+</html>

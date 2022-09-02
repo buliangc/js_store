@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rem自适应字体大小</title>
+    <style>
+        /* html {
+            font-size: 16px;
+        } */
+
+        .p1 {
+            font-size: 0.1rem;
+        }
+
+        .p2 {
+            font-size: 0.2rem;
+        }
+
+        .p3 {
+            font-size: 0.4rem;
+        }
+
+        .p4 {
+            font-size: 0.6rem;
+        }
+
+        .p5 {
+            font-size: 0.8rem;
+        }
+
+        .p6 {
+            font-size: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <p class="p1">这是字体大小</p>
+    <p class="p2">这是字体大小</p>
+    <p class="p3">这是字体大小</p>
+    <p class="p4">这是字体大小</p>
+    <p class="p5">这是字体大小</p>
+    <p class="p6">这是字体大小</p>
+    <script>
+        // 动态为根元素设置字体大小
+        function init() {
+            // 获取屏幕宽度
+            var width = document.documentElement.clientWidth
+            // 设置根元素字体大小。此时为宽的10等分
+            document.documentElement.style.fontSize = width / 10 + 'px';
+            console.log(document.documentElement.style.fontSize);
+        }
+
+        //
+        // 首次加载应用，设置一次
+        init()
+        // 监听手机旋转的事件的时机，重新设置
+        window.addEventListener('orientationchange', init)
+        // 监听手机窗口变化，重新设置
+        window.addEventListener('resize', init)
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手写ajax</title>
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+</head>
+
+<body>
+    <script>
+        // const url = 'http://localhost:8000'
+        const url = './data/test.json'
+        function myAjax(url) {
+            const promise = new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                // 创建HTTP请求
+                xhr.open('GET', url, true);
+                // 设置状态监听函数 readyState
+                xhr.onreadystatechange = function () {
+                    console.log('xhr.readyState', xhr.readyState);
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            resolve(JSON.parse(xhr.responseText));
+                        } else {
+                            reject(new Error('请求失败了！'))
+                        }
+                    }
+                };
+                // 发送get请求
+                xhr.send(null);
+            });
+            return promise;
+        }
+
+        myAjax(url).then((value) => {
+            console.log(value);
+        }).catch((e) => {
+            console.log(e);
+        })
+
+        // async function myAjax(url) {
+        //     let promise = new Promise((resolve, reject) => {
+        //         const xhr = new XMLHttpRequest();
+        //         xhr.open('GET', url, true);
+        //         xhr.onreadystatechange = () => {
+        //             if (xhr.readyState == 4) {
+        //                 if (xhr.status == 200) {
+        //                     resolve(JSON.parse(xhr.responseText));
+        //                 } else {
+        //                     reject(new Error('请求发生错误！'))
+        //                 }
+        //             }
+        //         }
+        //         xhr.send(null);
+        //     })
+        //     try {
+        //         let data = await promise;
+        //         console.log("data--", data);
+        //     } catch (e) {
+        //         console.log(e);
+        //     }
+        // };
+        // myAjax(url);
+
+
+    </script>
+</body>
+
+</html>

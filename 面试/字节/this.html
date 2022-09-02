@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        var length = 10;
+        function fn() {
+            console.log(this);
+            return this.length + 1;
+        }
+        var obj = {
+            length: 5,
+            test1: function () {
+                return fn();
+            }
+        }
+        obj.test2 = fn;
+
+
+        console.log(obj.test1.call());;   // 11
+        console.log(obj.test1());;        // 11 
+        console.log(obj.test2.call());;   // 11
+        console.log(obj.test2());;        // 6
+
+        var a = function () {
+            this.b = 3
+        }
+        var c = new a()
+        a.prototype.b = 10
+        var b = 7
+        a()     // 当函数a执行的时候，相当于执行内部程序，this.b = 3 this是window
+        console.log(b)      //   window.b = 3
+        console.log(c.b)    //   指向原始的地址 b = 3
+    </script>
+</body>
+
+</html>

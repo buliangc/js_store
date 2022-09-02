@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <ul>
+        <li>aaa</li>
+        <li>ddd</li>
+        <li>ccc</li>
+    </ul>
+    <script>
+        // getXXXByXXX 获取的是动态集合，querySelector获取的是静态集合。
+        // 简单的说就是，动态就是选出的元素会随文档改变，静态的不会，取出来之后就和文档的改变无关了。
+        // https://www.cnblogs.com/leaf930814/p/6660305.html
+
+        //demo1
+        // var ul = document.getElementsByTagName('ul')[0],
+        //     lis = ul.getElementsByTagName("li");
+        // for (var i = 0; i < 3; i++) {
+        //     ul.appendChild(document.createElement("li"));
+        // }
+        // console.log(lis.length);  //6
+
+        //demo2
+        var ul = document.querySelectorAll('ul')[0],
+            lis = ul.querySelectorAll("li");
+        for (var i = 0; i < lis.length; i++) {
+            ul.appendChild(document.createElement("li"));
+        }
+        console.log(lis.length);  //3
+    </script>
+</body>
+
+</html>

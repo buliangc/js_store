@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>防抖</title>
+    <script src="./debounce.js"></script>
+    <style>
+        #box {
+            width: 500px;
+            height: 100px;
+            line-height: 100px;
+        }
+
+        #ipt {
+            width: 200px;
+            height: 50px;
+        }
+
+        #btn {
+            width: 200px;
+            height: 50px;
+            background: blueviolet;
+            cursor: pointer;
+            color: cornsilk;
+            font-size: large;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <input type="text" id="ipt" onchange="print(e)">
+        <button id="btn">按钮</button>
+    </div>
+    <button type="button" id="btn1">防抖</button>
+
+    <script>
+        //点击函数
+        function clickHandle(e) {
+            console.log(this);
+            console.log(e);
+            console.log('防抖演示')
+        }
+        document.getElementById('btn1').addEventListener('click', debounce(clickHandle, 2000, false))
+        // document.getElementById('btn1').addEventListener('click',clickHandle)
+
+        var btn = document.getElementById("btn");
+        var ipt = document.getElementById("ipt");
+        btn.addEventListener("click", submit);
+        ipt.addEventListener("click", sub);
+        function submit(e) {
+            console.log(1);
+        }
+
+        function sub(e) {
+            console.log(e.target);
+        }
+
+        function print(e) {
+            console.log(e.target.value);
+        }
+
+        function myDebounce(handle, wait, immediate) {
+
+            return function () {
+                setTimeout(() => {
+                    handle();
+                }, wait);
+            }
+        }
+        // function debounce(handle,wait,immediate){
+        //     //首先进行参数判断
+        //     if(typeof handle !== 'function') throw new Error('handle must be function')
+        //     //默认wait为1s
+        //     if(typeof handle === 'undefinde') wait = 1000
+        //     //如果只传入 handle 和 immediate
+        //     if(typeof wait === 'boolean'){
+        //         immediate = wait
+        //         wait = 1000
+        //     }
+        //     //immediate默认为flase
+        //     if(typeof immediate !== 'boolean') immediate = false
+        //     //所谓的防抖效果，我们想要实现的就是一个人为可以管理handle的执行次数
+        //     let timer = null
+        //     return function (...args){
+        //         let self = this,init = immediate && !timer
+        //         clearTimeout(timer)
+        //         timer = setTimeout(()=>{
+        //             timer = null
+        //             !immediate ? handle.apply(self,args) : null
+        //         },
+        //         wait)
+        //         //如果立即执行
+        //         init ? handle.apply(self,args) : null
+        //     }
+        // }
+
+    </script>
+</body>
+
+</html>

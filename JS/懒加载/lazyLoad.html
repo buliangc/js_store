@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片懒加载</title>
+    <style>
+        img {
+            width: 500px;
+            height: 300px;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <img data-src="./images/bg2.jpg" alt="">
+    <img data-src="./images/cover2.jpg" alt="">
+    <img data-src="./images/cover3.jpg" alt="">
+    <img data-src="./images/mountain1.jpeg" alt="">
+    <img data-src="./images/mountain2.jpeg" alt="">
+    <script>
+        // 使用高度差来进行判断
+        const images = document.querySelectorAll("img");
+        // window.addEventListener("scroll", () => {
+        //     images.forEach(image => {
+        //         console.log(image.getBoundingClientRect().top, window.innerHeight);
+        //         if (image.getBoundingClientRect().top < window.innerHeight) {
+        //             image.setAttribute("src", image.getAttribute("data-src"));
+        //         }
+        //     })
+        // })
+        const callback = (entires) => {
+            console.log(entires);
+            entires.forEach(entire => {
+                if (entire.isIntersecting) {
+                    entire.target.setAttribute("src", entire.target.getAttribute("data-src"));
+                    observer.unobserve(entire.target)
+                    console.log("触发");
+                }
+            })
+        }
+        const observer = new IntersectionObserver(callback);
+        images.forEach(image => {
+            observer.observe(image);
+            // 
+        })
+    </script>
+</body>
+
+</html>

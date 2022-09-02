@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // class MyPormise {
+        //     constructor(executor) {
+        //         executor(this.say);
+        //     }
+        //     say() {
+        //         console.log(this);
+        //         console.log(this.x, this.y);
+        //     }
+        // }
+
+        // const p = new MyPormise(1, 2);
+        // console.log(p);
+
+        function MyTest(name, age) {
+            this.name = name;
+            this.age = age;
+            this.say = function () {
+                console.log(this);
+                // console.log(this.name);
+            };
+            console.log(this);
+            this.eat = () => {
+                console.log(this);
+            }
+        };
+        MyTest.prototype.get = function () {
+            console.log(this);
+        }
+        const m = new MyTest("buliang", 18);
+        m.say()
+        m.eat()
+        m.get()
+        // console.log(m);
+    </script>
+</body>
+
+</html>

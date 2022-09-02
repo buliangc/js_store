@@ -1,0 +1,127 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // console.log('window.i', window.i);
+        // for (var i = 0; i < 5; i++) {
+        //     setTimeout(() => {
+        //         console.log(i);
+        //     })
+        // }
+        // function add(x) {
+        //     return function (y) {
+        //         return x + y
+        //     }
+        // }
+        // var add5 = add(5);
+        // var add10 = add(10);
+        // console.log(add5(2));
+        // console.log(add10(2));
+
+    </script>
+</body>
+
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // function closure() {
+        //     let name = 'buliangc';
+        //     return function (b) {
+        //         console.log(name + b);
+        //     }
+        // }
+        // let close = closure();
+        // close(2);
+        // for (var i = 0; i < 5; i++) {
+        //     (function (i) {
+        //         setTimeout(() => {
+        //             console.log(i)
+        //         }, i * 1000);
+        //         console.log('匿名函数里面的', i);
+        //     })(i)
+        //     console.log('for循环里面的', i);
+        // }
+        // for (let i = 0; i < 5; i++) {
+        //     setTimeout(() => {
+        //         console.log(i)
+        //     }, i * 1000);
+        // }
+        let obj = {
+            name: 'buliangc',
+            age: 18
+        }
+        function Fire(params) {
+            console.log(this.name);
+        }
+        // 首先
+        Function.prototype.myCall = function (target, ...args) {
+            target = target || window;
+            target.fn = this;
+            console.log(this);
+            eval('target.fn(...args)');
+            delete target.fn;
+            return target
+        }
+        Fire.myCall(obj);
+
+        // console.log(i);
+
+        // var timer = setTimeout(function () {
+        //     console.log('setTimeout actions.');
+        // }, 0);
+
+        // console.log('other actions.');
+        // for (var i = 0; i < 5; i++) {
+        //     setTimeout((function (i) {
+        //         console.log(i);
+        //         return function () {
+        //             console.log('回调')
+        //             console.log(i)
+        //         }
+        //     })(i), i * 1000);
+        // }
+        //比如每一个带callback回调函数的，都是用了闭包，再比如每一个模块导出的时候，一定会有闭包来访问一些内部的函数或者变量，这也是闭包！
+        // var configChange = function (numId, config, callback) {
+        //     console.log("to python configChange send " + config + " to " + numId + "|");
+
+        //     // callback(numId + config + "# 成功");
+        //     // console.log(callback(numId + config + "# 成功"));
+        //     (function (data) { console.log(data) })(numId + config + "# 成功")
+        // }
+
+        // configChange('plc', "getWatch#", function (data) { console.log(data) });
+        //回调要执行的动作
+
+        //正要做的事情
+        // function goShopping(a, fun) {
+        //     console.log("我去shopping了");
+        //     //10点之前胡来要干的事情
+        //     if (a < 10) {
+        //         fun(a);
+        //         console.log(fun);
+        //     }
+        // }
+        // //回调测试
+        // goShopping(9, function (a) { console.log("帮我去快递吧" + a); });
+    </script>
+</body>
+
+</html>

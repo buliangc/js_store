@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var name = 'kkk'
+        let obj = {
+            name: 'cc',
+            age: 18,
+            say: () => {
+                console.log(this.name);
+            }
+        }
+        function myFun(a, b, c) {
+            console.log("大家好我是" + a + b + c + this.name);
+        }
+        Function.prototype.myCall = function (thisObj, ...args) {
+            thisObj = thisObj || window;
+            thisObj.fn = this;
+            eval("thisObj.fn(...args)");
+            delete thisObj.fn;
+        }
+        myFun.myCall(obj, 12, 15, 56);
+    </script>
+</body>
+
+</html>

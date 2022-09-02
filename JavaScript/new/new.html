@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function myNew(constructor, ...args) {
+            const instance = {};
+            instance.__proto__ = constructor.prototype;
+            const res = constructor.apply(instance, args)
+            return typeof (res) == "object" ? res : instance;
+        }
+        function Child(name, age) {
+            this.name = name;
+            this.age = age;
+        }
+        Child.prototype.g = function () {
+            console.log("nice");
+        }
+        function Parent(name, age) {
+            this.name = name;
+            this.age = age;
+        }
+        Parent.prototype.say = function () {
+            return this.name;
+        }
+        // let p = myNew(Say, "buliangc", 18);
+        // console.log(p);
+        let p1 = new Parent("buliangc", 18);
+        console.log(p1);
+        console.log(p1.say());
+        // 不使用new 关键字  Person()相当于执行一次Person函数
+        // 如果Person没有return关键字，相当于返回undefined; 如果有return，则返回相应的值，所以p是undefined
+        // 自然无法找到name属性。
+        // this指向问题，Person()函数本身是window对象的方法，
+        // 如果不用new操作符而直接调用，那么构造函数的执行对象就 是window，即this指向了window。
+        // 现在用new操作符后，this就指向了新生成的对象
+        // new关键词之后，总会返回一个对象，要么是实例对象，要么是return指定返回的对象
+        // function Person() {
+        //     console.log(this);
+        //     this.name = 'Buliangc';
+        //     this.age = 18;
+        //     this.say = () => {
+        //         console.log(this.name);
+        //     }
+        //     return 'fly'
+        // }
+
+        // let p = new Person();
+        // console.log(p); // {fly: "Buliangc"}
+        // console.log(name);  // Buliangc
+        // console.log(p.name);  // undefined
+        // function Parent(name, age) {
+        //     this.name = name;
+        //     this.age = age;
+        //     this.say = () => {
+        //         console.log(this.name);
+        //     }
+        // }
+
+        // function MyNew(Parent, ...prop) {
+        //     let child = {}  // 创建一个空对象
+        //     child.__proto__ = Parent.prototype  // 空对象的引用赋给this
+        //     Parent.apply(child, prop)  // 属性和方法添加至新对象
+        //     return child   // return 新对象
+        // }
+        // let child = MyNew(Parent, 'tutao', 25)
+        // child.say() // tutao
+        // function Parent(name, age) {
+        //     this.name = name;
+        //     this.age = age;
+        // }
+        // Parent.prototype.say = () => {
+        //     return this.name;
+        // }
+        // function my_new(parent, ...args) {
+        //     let obj = new Object();
+        //     obj.__proto__ = parent.prototype;
+        //     // parent.call(obj, ...arg);
+        //     // return obj;
+        //     let result = parent.apply(obj, args);
+        //     // 如果返回的result是一个对象则返回
+        //     // new方法失效，否则返回obj
+        //     return typeof result === Object ? result : obj;
+        // }
+        // let p = my_new(Parent, 'bulinagc', 18);
+        // p.sayp = () => {
+        //     return 'I am buliangc'
+        // }
+        // console.log(p.sayp());
+    </script>
+</body>
+
+</html>

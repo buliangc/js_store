@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax</title>
+</head>
+
+<body>
+    <button id="btn1">点击发送！</button>
+    <script>
+        // window.onload = function () {
+        //     var oBtn = document.getElementById("btn1");
+        //     oBtn.onclick = function () {
+        //         //1、创建ajax对象
+        //         var xhr = null;
+        //         try {
+        //             xhr = new XMLHttpRequest();
+        //         } catch (error) {
+        //             xhr = new ActiveXObject("Microsoft.XMLHTTP");
+        //         }
+        //         //2、等待数据响应
+        //         //必须在调用open()方法之前指定onreadystatechange事件处理程序才能确保跨域浏览器兼容性                //问题
+        //         //只要readyState属性的值有变化，就会触发readystatechange事件
+        //         xhr.onreadystatechange = function () {
+        //             console.log(xhr.readyState);
+        //             if (xhr.readyState == 4) {
+        //                 //判断本次下载的状态码都是多少 304表示请求的资源没有被修改
+        //                 if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+        //                     alert(xhr.responseText);
+        //                 } else {
+        //                     alert("Error:" + xhr.status);
+        //                 }
+        //             }
+        //         }
+        //         //3、调用open
+        //         xhr.open("get", "1.get.php?username=yyy&age=19&password=123abc", true);
+
+        //         //4、调用send
+        //         xhr.send();
+        //     }
+        // }
+        var oBtn = document.getElementById("btn1");
+        function ajax(method, url) {
+            var xhr = new XMLHttpRequest();
+            return new Promise((resolve, reject) => {
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4) {
+                        if (xhr.status >= 200 && xhr.status <= 300 || xhr.status == 304) {
+                            resolve(xhr.responseText);
+                        } else {
+                            reject(xhr.status);
+                        }
+                    }
+                };
+                xhr.open(method, url);
+                xhr.send();
+            })
+        }
+        oBtn.onclick = function () {
+            ajax("GET", "1.get.php?username=yyy&age=19&password=123abc").then((data) => {
+                // AJAX成功，拿到响应数据
+                console.log(data);
+            }).catch((status) => {
+                console.log(`Error${status}`);
+            })
+        }
+    </script>
+</body>
+
+</html>

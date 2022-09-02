@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>this指向问题</title>
+</head>
+
+<body>
+    <button id="box">按下</button>
+    <script>
+        let box = document.getElementById('box');
+        box.onclick = function () {
+            var fun = function () {
+                console.log(this)	// this 指向window
+            }
+            console.log(this)		// this 指向 box
+            window.fun()
+
+        }
+// 作用域
+// 
+
+    </script>
+</body>
+
+</html>

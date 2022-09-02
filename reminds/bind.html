@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手写bind</title>
+</head>
+
+<body>
+    <script>
+        let name = 'doubled'
+        let obj = {
+            name: 'buliangc',
+            age: 18
+        }
+        function test(a, b, c) {
+            console.log(this.name);
+            return this.age
+        }
+        // 1. 改变this指向
+        // 2. 第一个参数是this的值，后面的参数是函数所接收的参数
+        // 3. 返回值不变
+        Function.prototype.myBind = function () {
+            const self = this;
+            const args = Array.from(arguments);
+            const thisObj = args.shift();
+            console.log(args);
+            return function () {
+                return self.apply(thisObj, args);
+            }
+        }
+        // let p = test.myBind(obj, 1, 11, 111);
+        // let p = function () {
+        //     return test.apply(obj, [1, 11, 111]);
+        // }
+        // p();
+        let p = test.apply(obj, [1, 11, 111]);
+        console.log(p);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+<html>
+  <body>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.1.0/fetch.min.js"></script>
+    <script src="./request-limit.js"></script>
+    <script>
+      const requestLimit = new RequestLimit(1);
+      (async () => {
+        // for (let i=0; i<10; i++) {
+          requestLimit.request(() => fetch("http://localhost:4000/images/1.jpg"));
+          requestLimit.request(() => fetch("http://localhost:4000/images/2.png"));
+          requestLimit.request(() => fetch("http://localhost:4000/images/3.jpg"));
+          requestLimit.request(() => fetch("http://localhost:4000/images/4.jpg"));
+          requestLimit.request(() => fetch("http://localhost:4000/images/5.jpg"));
+          requestLimit.request(() => fetch("http://localhost:4000/images/6.jpg"));
+          requestLimit.request(() => fetch("http://localhost:4000/images/7.jpg"));
+          requestLimit.request(() => fetch("http://localhost:4000/images/8.png"));
+          requestLimit.request(() => fetch("http://localhost:4000/images/9.jpg"));
+          requestLimit.request(() => fetch("http://localhost:4000/images/10.jpg"));
+        // }
+      })()
+    </script>
+  </body>
+</html>
